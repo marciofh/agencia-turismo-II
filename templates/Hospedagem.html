@@ -15,9 +15,6 @@
         </nav>
         <div class="accordion" id="accordionPanelsStayOpenExample">
           {% for valor in content %}
-
-
-
             <div class="accordion-item">
               <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
@@ -43,7 +40,7 @@
                             {{valor['nome']}}
                           </div>
                           <div class="col">
-                            Número de Estrelas: {{valor['stars']}}
+                            Número de Estrelas: {{valor['estrelas']}}
                           </div>
                         </div>
                         <div class="row">
@@ -51,7 +48,7 @@
                             Endereço: {{valor['endereco']}}
                           </div>
                           <div class="col">
-                            Avaliações do TripAdvisor: {{valor['ranking_site']}}
+                            Avaliações do TripAdvisor: {{valor['avaliacao']}}
                           </div>
                         </div>
                       </div>
