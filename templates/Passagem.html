@@ -9,7 +9,7 @@
       <form action="/hospedagem" method="post" class="pt-3">
         <nav class="navbar navbar-light bg-light">
             <a class="navbar-brand" href="Home.html">
-              Passagens da GOL
+              Passagens
             </a>
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="submit">Próximo</button>
         </nav>
@@ -22,22 +22,25 @@
             </h2>
             <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
               <div class="accordion-body">
-                {% for valor in content['idas'] %} 
+                {% for valor in content['ida'] %} 
                   <div class="row">
                     <div class="col">
-                      {{valor['origem']}} - {{valor['hora_emb']}}
+                      {{valor['origem']}} ({{valor['aero_origem']}}) - {{valor['dt_partida']}}
                     </div>
                     <div class="col">
-                      {{valor['destino']}} - {{valor['hora_desemb']}}
+                      {{valor['destino']}} ({{valor['aero_destino']}}) - {{valor['dt_chegada']}}
                     </div>
                     <div class="col">
                       {{valor['duracao']}}
                     </div>
                     <div class="col">
-                      {{valor['conexao']}}
+                      {{valor['qtde_conn']}}
                     </div>
                     <div class="col">
                       R$ {{valor['preco']}}
+                    </div>
+                    <div class="col">
+                      {{valor['empresa']}}
                     </div>
                     <div class="col">
                       <input type="radio" name="voo_ida" value="{{valor}}" ></td>
@@ -55,28 +58,31 @@
             </h2>
             <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
               <div class="accordion-body">
-                {% for valor in content['voltas'] %} 
-                <div class="row">
-                  <div class="col">
-                    {{valor['origem']}} - {{valor['hora_emb']}}
+                {% for valor in content['volta'] %} 
+                  <div class="row">
+                    <div class="col">
+                      {{valor['origem']}} ({{valor['aero_origem']}}) - {{valor['dt_partida']}}
+                    </div>
+                    <div class="col">
+                      {{valor['destino']}} ({{valor['aero_destino']}}) - {{valor['dt_chegada']}}
+                    </div>
+                    <div class="col">
+                      {{valor['duracao']}}
+                    </div>
+                    <div class="col">
+                      {{valor['qtde_conn']}}
+                    </div>
+                    <div class="col">
+                      R$ {{valor['preco']}}
+                    </div>
+                    <div class="col">
+                      {{valor['empresa']}}
+                    </div>
+                    <div class="col">
+                      <input type="radio" name="voo_volta" value="{{valor}}" ></td>
+                    </div>
                   </div>
-                  <div class="col">
-                    {{valor['destino']}} - {{valor['hora_desemb']}}
-                  </div>
-                  <div class="col">
-                    {{valor['duracao']}}
-                  </div>
-                  <div class="col">
-                    {{valor['conexao']}}
-                  </div>
-                  <div class="col">
-                    R$ {{valor['preco']}}
-                  </div>
-                  <div class="col">
-                    <input type="radio" name="voo_volta" value="{{valor}}" ></td>
-                  </div>
-                </div>
-              {% endfor %}
+                {% endfor %}
               </div>
             </div>
           </div>
