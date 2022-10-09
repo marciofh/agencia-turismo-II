@@ -14,7 +14,7 @@
         <div class="text-center center-div">
             <div class="container w-50 border py-5">
                 <div class="title pb-5">
-                    <h2 class="font-weight-bold">Confirmando Pacote</h2>
+                    <h2 class="font-weight-bold">Pacote fechado!</h2>
                 </div>
                 <table class="table align-middle">
                     <thead>
@@ -24,8 +24,23 @@
                         <th scope="col">Preço</th>
                       </tr>
                     </thead>
-                    {{content['voos']['ida']['origem']}}
-                    
+                    <tbody>
+                      <tr>
+                        <th scope="row">Passagem de Ida</th>
+                        <td>{{content['ida']['origem']}} - {{content['ida']['dt_partida']}} {{content['ida']['destino']}} - {{content['ida']['dt_chegada']}} {{content['ida']['duracao']}} {{content['ida']['qtde_conn']}}</td>
+                        <td>{{content['passageiros']}}x R$ {{content['ida']['preco']}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Passagem de Volta</th>
+                        <td>{{content['volta']['origem']}} - {{content['volta']['dt_partida']}} {{content['volta']['destino']}} - {{content['volta']['dt_chegada']}} {{content['volta']['duracao']}} {{content['volta']['qtde_conn']}}</td>
+                        <td>{{content['passageiros']}}x R$ {{content['volta']['preco']}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Hotel</th>
+                        <td>{{content['hotel']['nome']}} {{content['hotel']['avaliacao']}} {{content['hotel']['estrelas']}}</td>
+                        <td>R$ {{content['hotel']['preco']}}</td>
+                      </tr>
+                    </tbody>
                   </table>
             </div>
         </div>
