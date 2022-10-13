@@ -31,3 +31,5 @@ class Cidade:
             _dict['aero_nome'] = response[0]['name']
 
         return _dict
+    
+# get_location('São Paulo')

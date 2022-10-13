@@ -35,7 +35,7 @@ class Hospedagem:
 
         for i in range(5):
             hotel = {
-                "nome": dados[i]['name'],
+                "nome_hotel": dados[i]['name'],
                 "preco" : dados[i]['price'],
                 "foto": dados[i]['photo']['images']['small']['url'],
                 "avaliacao": dados[i]['raw_ranking'],

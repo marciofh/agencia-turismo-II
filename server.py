@@ -29,6 +29,9 @@ def get_response():
     dict_ida = Passagem.get_passagem(session['data_ida'], session['passageiros'], dict_origem['aero_code'], dict_destino['aero_code']) #ARMAZENAR NO BANCO
     dict_volta = Passagem.get_passagem(session['data_volta'], session['passageiros'], dict_destino['aero_code'], dict_origem['aero_code']) #ARMAZENAR NO BANCO
 
+    # print(type(dict_ida[0]['duracao']))
+    # print(dict_ida[0]['duracao'])
+
     dict_voos = {
         "ida": dict_ida,
         "volta": dict_volta,
@@ -40,9 +43,6 @@ def get_response():
 def get_hotel():
     voo_ida = request.form.get('voo_ida')
     voo_volta = request.form.get('voo_volta')
-
-    # print(voo_ida['data_partida'])
-    # print(type(voo_ida['data_partida']))
     
     session["voo_ida"] = voo_ida
     session["voo_volta"] = voo_volta
