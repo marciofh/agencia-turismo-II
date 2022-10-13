@@ -16,22 +16,34 @@ class Hospedagem:
             "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com"
         }
 
-        response = requests.request("GET", url, headers=headers, params=querystring)
-        response =  response.json()
-        response = response['data']
-        _dict = []
+        dados = []
+        print(dados)
+        print()
+
+        while len(dados) == 0:
+            response = requests.request("GET", url, headers=headers, params=querystring)
+            response =  response.json()
+            dados = response['data']
+            
+            #apenas para verificação
+            if len(dados) == 0:
+                print('[]\n')
+            else:
+                print('CHEIO\n')
         
-        #VERIFICAR DE RESPONSE É VAZIO
+        _dict = []
 
         for i in range(5):
             hotel = {
-                "nome": response[i]['name'],
-                "preco" : response[i]['price'],
-                "foto": response[i]['photo']['images']['small']['url'],
-                "avaliacao": response[i]['raw_ranking'],
-                "estrelas": response[i]['hotel_class'],
-                "endereco": response[i]['address']
+                "nome": dados[i]['name'],
+                "preco" : dados[i]['price'],
+                "foto": dados[i]['photo']['images']['small']['url'],
+                "avaliacao": dados[i]['raw_ranking'],
+                "estrelas": dados[i]['hotel_class'],
+                "endereco": dados[i]['address']
             }
             _dict.append(hotel)
         
         return _dict
+
+# get_hotels(303631, '2022-03-15', 3, 1)
