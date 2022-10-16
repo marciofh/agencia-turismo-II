@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, session
 from cidade import Cidade
 from passagem import Passagem
 from hospedagem import Hospedagem
-import ast
+import datetime
 
 app = Flask(__name__)
 
@@ -29,9 +29,6 @@ def get_response():
     dict_ida = Passagem.get_passagem(session['data_ida'], session['passageiros'], dict_origem['aero_code'], dict_destino['aero_code']) #ARMAZENAR NO BANCO
     dict_volta = Passagem.get_passagem(session['data_volta'], session['passageiros'], dict_destino['aero_code'], dict_origem['aero_code']) #ARMAZENAR NO BANCO
 
-    # print(type(dict_ida[0]['duracao']))
-    # print(dict_ida[0]['duracao'])
-
     dict_voos = {
         "ida": dict_ida,
         "volta": dict_volta,
@@ -41,11 +38,8 @@ def get_response():
 
 @app.route("/hospedagem", methods=["POST"])
 def get_hotel():
-    voo_ida = request.form.get('voo_ida')
-    voo_volta = request.form.get('voo_volta')
-    
-    session["voo_ida"] = voo_ida
-    session["voo_volta"] = voo_volta
+    session["voo_ida"] = request.form.get('voo_ida')
+    session["voo_volta"] = request.form.get('voo_volta')
 
     print("########## EXECUTANDO API HOTEL ##########\n")
     dict_hoteis = Hospedagem.get_hotels(session["location_destino"], session["passageiros"], session["data_ida"], session["data_volta"]) #ARMAZENAR NO BANCO
@@ -55,14 +49,15 @@ def get_hotel():
 @app.route("/pacote", methods=["POST"])
 def fechando_pacote():
     hotel = request.form.get('hotel')
-    hotel = ast.literal_eval(hotel)
-    ida = ast.literal_eval(session['voo_ida'])
-    volta = ast.literal_eval(session['voo_volta'])
+    hotel = eval(hotel)
+    ida = eval(session['voo_ida'])
+    volta = eval(session['voo_volta'])
 
     dict_pacote = {
-        "hotel": hotel,
-        "ida": ida,
-        "volta": volta
+        'hotel': hotel,
+        'ida': ida,
+        'volta': volta,
+        'passageiros': session["passageiros"]
     }
 
     print("########## FECHANDO PACOTE ##########\n")

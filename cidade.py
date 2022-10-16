@@ -9,12 +9,14 @@ class Cidade:
             "locale":"pt_BR"
             }
         headers = {
-            "X-RapidAPI-Key": "12bb9c7718mshe8cbe79cbc0f70cp10b4c1jsnfb9d6a4ccc43",
+            "X-RapidAPI-Key": "88eb6d5222mshc661135cc2ca447p15dd6djsn6c51ff9ca44c", #2º token
             "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com"
         }
 
         response = requests.request("GET", url, headers=headers, params=querystring)
         response =  response.json()
+
+        print(response)
 
         _dict = {
                 "nome_cidade" : response[0]['display_title'],

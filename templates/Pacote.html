@@ -27,20 +27,31 @@
                     <tbody>
                       <tr>
                         <th scope="row">Passagem de Ida</th>
-                        <td>{{content['ida']['origem']}} - {{content['ida']['dt_partida']}} {{content['ida']['destino']}} - {{content['ida']['dt_chegada']}} {{content['ida']['duracao']}} {{content['ida']['qtde_conn']}}</td>
-                        <td>{{content['passageiros']}}x R$ {{content['ida']['preco']}}</td>
+                        <td>{{content['ida']['origem']}} - {{content['ida']['data_partida']}} {{content['ida']['destino']}} - {{content['ida']['data_chegada']}}</td>
+                        <td>{{content['passageiros']}} x R$ {{content['ida']['preco']}}</td>
                       </tr>
                       <tr>
                         <th scope="row">Passagem de Volta</th>
-                        <td>{{content['volta']['origem']}} - {{content['volta']['dt_partida']}} {{content['volta']['destino']}} - {{content['volta']['dt_chegada']}} {{content['volta']['duracao']}} {{content['volta']['qtde_conn']}}</td>
-                        <td>{{content['passageiros']}}x R$ {{content['volta']['preco']}}</td>
+                        <td>{{content['volta']['origem']}} - {{content['volta']['data_partida']}} {{content['volta']['destino']}} - {{content['volta']['data_chegada']}}</td>
+                        <td>{{content['passageiros']}} x R$ {{content['volta']['preco']}}</td>
                       </tr>
                       <tr>
                         <th scope="row">Hotel</th>
-                        <td>{{content['hotel']['nome_hotel']}} {{content['hotel']['avaliacao']}} {{content['hotel']['estrelas']}}</td>
+                        <td>{{content['hotel']['nome_hotel']}} {{content['hotel']['estrelas']}} estrelas</td>
                         <td>R$ {{content['hotel']['preco']}}</td>
                       </tr>
                     </tbody>
+                    {% set total_ida = content['ida']['preco']|float * content['passageiros']|float %}
+                    {% set total_volta = content['volta']['preco']|float * content['passageiros']|float %}
+                    {% set total_hotel = content['hotel']['preco']|float %}
+                    {% set total_pacote = total_ida + total_volta + total_hotel %}
+                    <tfoot>
+                      <tr>
+                        <th scope="row">Total do Pacote</th>
+                        <td></td>
+                        <td>R$ {{'%0.2f'| format(total_pacote|float)}}</td>
+                      </tr>
+                    </tfoot>
                   </table>
             </div>
             <div>

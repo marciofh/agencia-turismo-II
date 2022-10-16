@@ -1,5 +1,5 @@
 import requests
-from datetime import datetime, time
+from datetime import datetime
 import dateutil.parser
 
 # Search (departures, one way) https://rapidapi.com/tipsters/api/priceline-com-provider
@@ -22,7 +22,7 @@ class Passagem:
         response = requests.request("GET", url, headers=headers, params=querystring)
         response =  response.json()
         response = response['getAirFlightDepartures']['results']['result']['itinerary_data']
-        
+
         _dict = []
 
         for i in response:
@@ -32,22 +32,19 @@ class Passagem:
                 "aero_origem": response[i]['slice_data']['slice_0']['departure']['airport']['code'],
                 "aero_destino": response[i]['slice_data']['slice_0']['arrival']['airport']['code'],
                 "preco": response[i]['price_details']['display_total_fare_per_ticket'],
-                "duracao": response[i]['slice_data']['slice_0']['info']['duration'], #ARRUMAR
+                "duracao": response[i]['slice_data']['slice_0']['info']['duration'],
                 "qtde_conn": response[i]['slice_data']['slice_0']['info']['connection_count'],
                 "empresa": response[i]['slice_data']['slice_0']['airline']['name'],
-                "data_partida": response[i]['slice_data']['slice_0']['departure']['datetime']['date_time'], #ARRUMAR
-                "data_chegada": response[i]['slice_data']['slice_0']['departure']['datetime']['date_time'], #ARRUMAR
+                "data_partida": response[i]['slice_data']['slice_0']['departure']['datetime']['date_time'],
+                "data_chegada": response[i]['slice_data']['slice_0']['arrival']['datetime']['date_time']
             }
+            
             voo['duracao'] = datetime.strptime(voo['duracao'], '%H:%M:%S').time()
-            # print(voo['duracao'])
-            # print(type(voo['duracao']))
+            voo['data_partida'] = dateutil.parser.parse(voo['data_partida'])
+            voo['data_chegada'] = dateutil.parser.parse(voo['data_chegada'])
 
-            # voo['data_partida'] = dateutil.parser.parse(voo['data_partida'])
-            # print(voo)
             _dict.append(voo)
 
         return _dict
 
 # get_passagem('2022-10-16', 2, 'GRU', 'GIG')
-
-{'origem': 'Sao Paulo', 'destino': 'Rio de Janeiro', 'aero_origem': 'GRU', 'aero_destino': 'GIG', 'preco': 7358.68, 'duracao': '00:20:45', 'qtde_conn': 2, 'empresa': 'LATAM Airlines', 'data_partida': '2022-10-16T12:50:00', 'data_chegada': '2022-10-16T12:50:00'}

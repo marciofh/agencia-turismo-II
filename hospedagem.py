@@ -1,18 +1,25 @@
 import requests
+import re
+from datetime import datetime
 
 #hotels/get-details https://rapidapi.com/apidojo/api/travel-advisor
 class Hospedagem:
     def get_hotels(location_id, passageiros, data_ida, data_volta):
+        data_ida = datetime.strptime(data_ida, "%Y-%m-%d").date()
+        data_volta = datetime.strptime(data_volta, "%Y-%m-%d").date()
+        noites = (data_volta - data_ida).days
+
         url = "https://travel-advisor.p.rapidapi.com/hotels/get-details"
         querystring = {
             "location_id":location_id,
             "checkin":data_ida,
             "adults":passageiros,
             "currency":"BRL",
-            "nights":"2" #CALCULAR NOITES
+            "lang": 'pt_BR',
+            "nights": noites
             }
         headers = {
-            "X-RapidAPI-Key": "12bb9c7718mshe8cbe79cbc0f70cp10b4c1jsnfb9d6a4ccc43",
+            "X-RapidAPI-Key": "88eb6d5222mshc661135cc2ca447p15dd6djsn6c51ff9ca44c", #2º token
             "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com"
         }
 
@@ -30,7 +37,7 @@ class Hospedagem:
                 print('[]\n')
             else:
                 print('CHEIO\n')
-        
+
         _dict = []
 
         for i in range(5):
@@ -42,8 +49,17 @@ class Hospedagem:
                 "estrelas": dados[i]['hotel_class'],
                 "endereco": dados[i]['address']
             }
+            
+            hotel['avaliacao'] = float(hotel['avaliacao'])
+            hotel['avaliacao'] = round(hotel['avaliacao'], 2)
+            hotel['estrelas'] = float(hotel['estrelas'])
+            hotel['preco'] = hotel['preco'][2:10]
+            hotel['preco'] = re.sub('[^0-9,]', '', hotel['preco'])
+            hotel['preco'] = re.sub(',', '.', hotel['preco'])
+            hotel['preco'] = float(hotel['preco'])
+
             _dict.append(hotel)
-        
+
         return _dict
 
-# get_hotels(303631, '2022-03-15', 3, 1)
+# get_hotels(303631, 2, '2022-10-20', '2022-10-21')
