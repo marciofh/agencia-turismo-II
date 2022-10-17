@@ -41,8 +41,12 @@ def get_hotel():
     session["voo_ida"] = request.form.get('voo_ida')
     session["voo_volta"] = request.form.get('voo_volta')
 
+    data_ida = datetime.datetime.strptime(session["data_ida"], "%Y-%m-%d").date()
+    data_volta = datetime.datetime.strptime(session["data_volta"], "%Y-%m-%d").date()
+    noites = (data_volta - data_ida).days
+
     print("########## EXECUTANDO API HOTEL ##########\n")
-    dict_hoteis = Hospedagem.get_hotels(session["location_destino"], session["passageiros"], session["data_ida"], session["data_volta"]) #ARMAZENAR NO BANCO
+    dict_hoteis = Hospedagem.get_hotels(session["location_destino"], session["passageiros"], session["data_ida"], noites) #ARMAZENAR NO BANCO
     
     return render_template('Hospedagem.html', content = dict_hoteis)
 
@@ -53,14 +57,19 @@ def fechando_pacote():
     ida = eval(session['voo_ida'])
     volta = eval(session['voo_volta'])
 
+    data_ida = datetime.datetime.strptime(session["data_ida"], "%Y-%m-%d").date()
+    data_volta = datetime.datetime.strptime(session["data_volta"], "%Y-%m-%d").date()
+    noites = (data_volta - data_ida).days
+
     dict_pacote = {
         'hotel': hotel,
         'ida': ida,
         'volta': volta,
-        'passageiros': session["passageiros"]
+        'passageiros': session["passageiros"],
+        'noites': noites
     }
 
-    print("########## FECHANDO PACOTE ##########\n")
+    print("########## FECHANDO PACOTE ##########\n") #ARMAZENAR NO BANCO
     return render_template('Pacote.html', content = dict_pacote)
 
 if __name__ == "__main__":

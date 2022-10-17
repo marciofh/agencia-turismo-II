@@ -1,14 +1,9 @@
 import requests
 import re
-from datetime import datetime
 
 #hotels/get-details https://rapidapi.com/apidojo/api/travel-advisor
 class Hospedagem:
-    def get_hotels(location_id, passageiros, data_ida, data_volta):
-        data_ida = datetime.strptime(data_ida, "%Y-%m-%d").date()
-        data_volta = datetime.strptime(data_volta, "%Y-%m-%d").date()
-        noites = (data_volta - data_ida).days
-
+    def get_hotels(location_id, passageiros, data_ida, noites):
         url = "https://travel-advisor.p.rapidapi.com/hotels/get-details"
         querystring = {
             "location_id":location_id,
@@ -62,4 +57,4 @@ class Hospedagem:
 
         return _dict
 
-# get_hotels(303631, 2, '2022-10-20', '2022-10-21')
+# get_hotels(303631, 2, '2022-10-20', 2)
