@@ -16,8 +16,6 @@ class Cidade:
         response = requests.request("GET", url, headers=headers, params=querystring)
         response =  response.json()
 
-        print(response)
-
         _dict = {
                 "nome_cidade" : response[0]['display_title'],
                 "location_id" : response[0]['location_id'],
