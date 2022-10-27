@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, session
 from cidade import Cidade
 from passagem import Passagem
 from hospedagem import Hospedagem
+from atracao import Atracao
 import datetime
 
 app = Flask(__name__)
@@ -57,6 +58,10 @@ def fechando_pacote():
     ida = eval(session['voo_ida'])
     volta = eval(session['voo_volta'])
 
+    print("########## EXECUTANDO API ATRACAO ##########\n")
+    dict_atracoes = Atracao.get_atracao(session['location_destino']) #ARMAZENAR NO BANCO
+    print()
+    print(dict_atracoes)
     data_ida = datetime.datetime.strptime(session["data_ida"], "%Y-%m-%d").date()
     data_volta = datetime.datetime.strptime(session["data_volta"], "%Y-%m-%d").date()
     noites = (data_volta - data_ida).days
@@ -66,7 +71,8 @@ def fechando_pacote():
         'ida': ida,
         'volta': volta,
         'passageiros': session["passageiros"],
-        'noites': noites
+        'noites': noites,
+        'atracoes': dict_atracoes
     }
 
     print("########## FECHANDO PACOTE ##########\n") #ARMAZENAR NO BANCO
