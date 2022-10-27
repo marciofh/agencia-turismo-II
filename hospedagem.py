@@ -34,27 +34,30 @@ class Hospedagem:
                 print('CHEIO\n')
 
         _dict = []
-
-        for i in range(5):
-            hotel = {
-                "nome_hotel": dados[i]['name'],
-                "preco" : dados[i]['price'],
-                "foto": dados[i]['photo']['images']['small']['url'],
-                "avaliacao": dados[i]['raw_ranking'],
-                "estrelas": dados[i]['hotel_class'],
-                "endereco": dados[i]['address']
-            }
+        for i in dados:
+            try:
+                hotel = {
+                    "nome_hotel": i['name'],
+                    "preco" : i['price'],
+                    "foto": i['photo']['images']['small']['url'],
+                    "avaliacao": i['raw_ranking'],
+                    "estrelas": i['hotel_class'],
+                    "endereco": i['address']
+                }
             
-            hotel['avaliacao'] = float(hotel['avaliacao'])
-            hotel['avaliacao'] = round(hotel['avaliacao'], 2)
-            hotel['estrelas'] = float(hotel['estrelas'])
-            hotel['preco'] = hotel['preco'][2:10]
-            hotel['preco'] = re.sub('[^0-9,]', '', hotel['preco'])
-            hotel['preco'] = re.sub(',', '.', hotel['preco'])
-            hotel['preco'] = float(hotel['preco'])
+                hotel['avaliacao'] = float(hotel['avaliacao'])
+                hotel['avaliacao'] = round(hotel['avaliacao'], 2)
+                hotel['estrelas'] = float(hotel['estrelas'])
+                hotel['preco'] = hotel['preco'][2:10]
+                hotel['preco'] = re.sub('[^0-9,]', '', hotel['preco'])
+                hotel['preco'] = re.sub(',', '.', hotel['preco'])
+                hotel['preco'] = float(hotel['preco'])
 
-            _dict.append(hotel)
+                _dict.append(hotel)
+
+            except:
+                pass
 
         return _dict
 
-# get_hotels(303631, 2, '2022-10-20', 2)
+# get_hotels(303631, 2, '2022-11-20', 2)
