@@ -60,8 +60,6 @@ def fechando_pacote():
 
     print("########## EXECUTANDO API ATRACAO ##########\n")
     dict_atracoes = Atracao.get_atracao(session['location_destino']) #ARMAZENAR NO BANCO
-    print()
-    print(dict_atracoes)
     data_ida = datetime.datetime.strptime(session["data_ida"], "%Y-%m-%d").date()
     data_volta = datetime.datetime.strptime(session["data_volta"], "%Y-%m-%d").date()
     noites = (data_volta - data_ida).days

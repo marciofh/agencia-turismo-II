@@ -1,35 +1,34 @@
 import requests
 import re
+from credentials import keys
 
 #hotels/get-details https://rapidapi.com/apidojo/api/travel-advisor
 class Hospedagem:
     def get_hotels(location_id, passageiros, data_ida, noites):
+        TOKEN = keys.get('token_travel_advisor')
         url = "https://travel-advisor.p.rapidapi.com/hotels/get-details"
         querystring = {
-            "location_id":location_id,
-            "checkin":data_ida,
-            "adults":passageiros,
-            "currency":"BRL",
-            "lang": 'pt_BR',
+            "location_id": location_id,
+            "checkin": data_ida,
+            "adults": passageiros,
+            "currency": "BRL",
+            "lang": "pt_BR",
             "nights": noites
-            }
+        }
         headers = {
-            "X-RapidAPI-Key": "88eb6d5222mshc661135cc2ca447p15dd6djsn6c51ff9ca44c", #2º token
+            "X-RapidAPI-Key": TOKEN,
             "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com"
         }
-
         dados = []
-        print(dados)
-        print()
 
         while len(dados) == 0:
             response = requests.request("GET", url, headers=headers, params=querystring)
-            response =  response.json()
+            response = response.json()
             dados = response['data']
             
             #apenas para verificação
             if len(dados) == 0:
-                print('[]\n')
+                print('VAZIO\n')
             else:
                 print('CHEIO\n')
 
@@ -54,7 +53,6 @@ class Hospedagem:
                 hotel['preco'] = float(hotel['preco'])
 
                 _dict.append(hotel)
-
             except:
                 pass
 
