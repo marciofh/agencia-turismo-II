@@ -4,7 +4,7 @@ import dateutil.parser
 from credentials import keys
 
 # Search (departures, one way) https://rapidapi.com/tipsters/api/priceline-com-provider
-class Passagem:
+class ApiPassagem:
     def get_passagem(data, passageiros, aero_origem, aero_destino):
         TOKEN = keys.get('token_priceline')
         url = "https://priceline-com-provider.p.rapidapi.com/v2/flight/departures"

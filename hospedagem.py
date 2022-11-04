@@ -3,7 +3,7 @@ import re
 from credentials import keys
 
 #hotels/get-details https://rapidapi.com/apidojo/api/travel-advisor
-class Hospedagem:
+class ApiHospedagem:
     def get_hotels(location_id, passageiros, data_ida, noites):
         TOKEN = keys.get('token_travel_advisor')
         url = "https://travel-advisor.p.rapidapi.com/hotels/get-details"

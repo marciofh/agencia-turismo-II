@@ -2,7 +2,7 @@ import requests
 from credentials import keys
 
 #AIRPORTS/SEARCH https://rapidapi.com/apidojo/api/travel-advisor
-class Cidade:
+class ApiCidade:
     def get_location(cidade):
         TOKEN = keys.get('token_travel_advisor')
         url = "https://travel-advisor.p.rapidapi.com/airports/search"

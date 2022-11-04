@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, session
-from cidade import Cidade
-from passagem import Passagem
-from hospedagem import Hospedagem
-from atracao import Atracao
+from cidade import ApiCidade
+from passagem import ApiPassagem
+from hospedagem import ApiHospedagem
+from atracao import ApiAtracao
+from models import Cidade, Passagem, Hospedagem, Atracao
 import datetime
 
 app = Flask(__name__)
@@ -21,14 +22,19 @@ def get_response():
 
     #API CIDADE    
     print("########## EXECUTANDO API CIDADE ##########\n")
-    dict_origem = Cidade.get_location(session["origem"]) #ARMAZENAR NO BANCO
-    dict_destino = Cidade.get_location(session["destino"]) #ARMAZENAR NO BANCO
+    dict_origem = ApiCidade.get_location(session["origem"])
+    dict_destino = ApiCidade.get_location(session["destino"])
     session["location_destino"] = dict_destino["location_id"]
+
+    cidade = Cidade.criaCidade(dict_origem) #ARMAZENA NO BANCO
 
     #API VOO
     print("########## EXECUTANDO API VOO ##########\n")
-    dict_ida = Passagem.get_passagem(session['data_ida'], session['passageiros'], dict_origem['aero_code'], dict_destino['aero_code']) #ARMAZENAR NO BANCO
-    dict_volta = Passagem.get_passagem(session['data_volta'], session['passageiros'], dict_destino['aero_code'], dict_origem['aero_code']) #ARMAZENAR NO BANCO
+    dict_ida = ApiPassagem.get_passagem(session['data_ida'], session['passageiros'], dict_origem['aero_code'], dict_destino['aero_code'])
+    dict_volta = ApiPassagem.get_passagem(session['data_volta'], session['passageiros'], dict_destino['aero_code'], dict_origem['aero_code'])
+    
+    for i in dict_ida: #ESSE É O JEITO CERTO???
+        passagem = Passagem.criaPassagem(i) #ARMAZENA NO BANCO
 
     dict_voos = {
         "ida": dict_ida,
@@ -46,8 +52,11 @@ def get_hotel():
     data_volta = datetime.datetime.strptime(session["data_volta"], "%Y-%m-%d").date()
     noites = (data_volta - data_ida).days
 
+    #API HOTEL
     print("########## EXECUTANDO API HOTEL ##########\n")
-    dict_hoteis = Hospedagem.get_hotels(session["location_destino"], session["passageiros"], session["data_ida"], noites) #ARMAZENAR NO BANCO
+    dict_hoteis = ApiHospedagem.get_hotels(session["location_destino"], session["passageiros"], session["data_ida"], noites) 
+    for i in dict_hoteis: #ESSE É O JEITO CERTO???
+        hospedagem = Hospedagem.criaHospedagem(i) #ARMAZENAR NO BANCO
     
     return render_template('Hospedagem.html', content = dict_hoteis)
 
@@ -58,8 +67,12 @@ def fechando_pacote():
     ida = eval(session['voo_ida'])
     volta = eval(session['voo_volta'])
 
+    #API ATRAÇÃO 
     print("########## EXECUTANDO API ATRACAO ##########\n")
-    dict_atracoes = Atracao.get_atracao(session['location_destino']) #ARMAZENAR NO BANCO
+    dict_atracoes = ApiAtracao.get_atracao(session['location_destino'])
+    for i in dict_atracoes: #ESSE É O JEITO CERTO???
+        atracao = Atracao.criaAtracao(i)#ARMAZENAR NO BANCO
+     
     data_ida = datetime.datetime.strptime(session["data_ida"], "%Y-%m-%d").date()
     data_volta = datetime.datetime.strptime(session["data_volta"], "%Y-%m-%d").date()
     noites = (data_volta - data_ida).days
@@ -73,6 +86,7 @@ def fechando_pacote():
         'atracoes': dict_atracoes
     }
 
+    #PACOTE TURISTICO
     print("########## FECHANDO PACOTE ##########\n") #ARMAZENAR NO BANCO
     return render_template('Pacote.html', content = dict_pacote)
 

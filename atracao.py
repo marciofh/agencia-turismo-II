@@ -2,7 +2,7 @@ import requests
 from credentials import keys
 
 #attraction/list https://rapidapi.com/apidojo/api/travel-advisor
-class Atracao:
+class ApiAtracao:
     def get_atracao(location_id):
         TOKEN = keys.get('token_travel_advisor')
         url = "https://travel-advisor.p.rapidapi.com/attractions/list"
