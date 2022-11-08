@@ -1,48 +1,236 @@
 <html>
     <head>
         <meta charset="utf-8">        
-        <title>Agência de Turismo</title>        
+        <title>UaiTrip</title>        
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     </head>
     <body>
-        <nav class="navbar navbar-light bg-light">
-            <a class="navbar-brand" href="Home.html">
-              Agência de Turismo
-            </a>
-          </nav>
-          <br>  
+        <header class="header">
+        <a href="" class="logo"><img src="../static/img/UaiTrip_logo _1.png"></a>
+        <ul class="menu">
+            <li><a href="#work">Home</a></li>
+            <li><a href="Home.html">Monte seu pacote</a></li>
+            <li><a href="/filtros">Relatórios</a></li>
+        </ul>
+        </header>
+        <div class="">
+            <spna class=""><img src="../static/img/UaiTrip_logo _1.png">UaiTrip</spna>
+            <span class="">
+                <h2 class="">MONTE SEU PACOTE</h2>
+            </span>
+        </div>
+        
         <div class="text-center center-div" id=login>
-            <div class="container w-50 border py-5">
-                <div class="title pb-5">
-                    <h2 class="font-weight-bold">Para onde vai viajar?</h2>
-                </div>
-                <form action="/passagem" method="post" class="pt-3">
+            <div class="container w-50 py-5">
+                
+                <form id="voos" action="/passagem" name="forms_viagem" method="post" class="pt-3" onsubmit="validar()">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="floatingInput" placeholder="Cidade de Origem" name="origem">
+                        <input type="text" class="form-control" id="floatingInput" placeholder="Cidade de Origem" name="origem" id="ori" required>
                         <label for="floatingInput">Cidade de Origem</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="floatingInput" placeholder="Cidade de Destino" name="destino">
+                        <input type="text" class="form-control" id="floatingInput" placeholder="Cidade de Destino" name="destino" id="des" required>
                         <label for="floatingInput">Cidade de Destino</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="date" class="form-control" id="floatingInput" placeholder="Data de Ida" name="data_ida">
+                        <input type="date" class="form-control" id="floatingInput" placeholder="Data de Ida" name="data_ida" required>
                         <label for="floatingInput">Data de Ida</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="date" class="form-control" id="floatingInput" placeholder="Data de Volta" name="data_volta">
+                        <input type="date" class="form-control" id="floatingInput" placeholder="Data de Volta" name="data_volta" required>
                         <label for="floatingInput">Data de Volta</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="number" class="form-control" id="floatingInput" placeholder="Passageiros" name="passageiros">
+                        <input type="number" class="form-control" id="floatingInput" placeholder="Passageiros" name="passageiros" required>
                         <label for="floatingInput">Quantidade de passageiros</label>
                     </div>
                     <br>    
                     <div class="col-auto">
-                        <button type="submit" value="submit" class="btn btn-primary btn-block">Pesquisar</button>
+                        <button type="submit" value="submit" class="btn btn-primary btn-block" onclick="validar()">Pesquisar</button>
                     </div>
                 </form>
             </div>
         </div>
     </body>
 </html>
+
+<script>
+    // Selecionar datas a partir do dia atual.    
+    $(function(){
+    var dtToday = new Date();
+    
+    var mes = dtToday.getMonth() + 1;
+    var dia= dtToday.getDate();
+    var ano = dtToday.getFullYear();
+    if(mes < 10)
+        mes = '0' + mes.toString();
+    if(dia < 10)
+        dia = '0' +dia.toString();
+    
+    var maxDate = ano + '-' + mes + '-' + dia;
+    
+    $('#dataida').attr('min', maxDate);
+    $('#datavolta').attr('min', maxDate);
+    });
+
+    // Validação de campos digitados iguais
+    function validar(){
+        var input1 = document.getElementsByName("origem");
+        var input2 = document.getElementsByName("destino");
+
+        if (input1.value == input2.value){
+            alert("As cidades de origem e destino tem que ser diferentes!");
+        }
+    }
+</script>
+
+<style>
+
+a {
+  color: #000;
+}
+
+/* header */
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #000;
+  font-size: 24px;
+}
+
+.teste{
+    display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.header li a {
+  display: block;
+  padding: 20px 20px;
+  border-right: 1px solid #f4f4f4;
+  text-decoration: none;
+  color: white;
+}
+
+.header li a:hover,
+.header .menu-btn:hover {
+  background-color: #f4f4f4;
+}
+
+.header .logo {
+  display: block;
+  float: left;
+  font-size: 2em;
+  padding: 10px 20px;
+  text-decoration: none;
+}
+
+/* menu */
+
+.header .menu {
+  clear: both;
+  max-height: 0;
+  transition: max-height .2s ease-out;
+  background-color: #000;
+  color: white;
+}
+
+/* menu icon */
+
+.header .menu-icon {
+  cursor: pointer;
+  display: inline-block;
+  /* float: right; */
+  padding: 28px 20px;
+  position: relative;
+  user-select: none;
+}
+
+.header .menu-icon .navicon {
+  background: #333;
+  display: block;
+  height: 2px;
+  position: relative;
+  /* transition: background .2s ease-out; */
+  width: 18px;
+}
+
+.header .menu-icon .navicon:before,
+.header .menu-icon .navicon:after {
+  background: #333;
+  content: '';
+  display: block;
+  height: 100%;
+  position: absolute;
+  transition: all .2s ease-out;
+  width: 100%;
+}
+
+.header .menu-icon .navicon:before {
+  top: 5px;
+}
+
+.header .menu-icon .navicon:after {
+  top: -5px;
+}
+
+/* menu btn */
+
+.header .menu-btn {
+  display: none;
+}
+
+.header .menu-btn:checked ~ .menu {
+  max-height: 240px;
+}
+
+.header .menu-btn:checked ~ .menu-icon .navicon {
+  background: transparent;
+}
+
+.header .menu-btn:checked ~ .menu-icon .navicon:before {
+  transform: rotate(-45deg);
+}
+
+.header .menu-btn:checked ~ .menu-icon .navicon:after {
+  transform: rotate(45deg);
+}
+
+.header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:before,
+.header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
+  top: 0;
+}
+
+/* 48em = 768px */
+
+@media (min-width: 48em) {
+  .header li {
+    float: left;
+  }
+  .header li a {
+    padding: 20px 30px;
+  }
+  .header .menu {
+    clear: none;
+    float: right;
+    max-height: none;
+  }
+  .header .menu-icon {
+    display: none;
+  }
+}
+
+</style>

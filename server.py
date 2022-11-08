@@ -6,6 +6,11 @@ from atracao import ApiAtracao
 from models import Cidade, Passagem, Hospedagem, Atracao
 import datetime
 
+import pandas as pd
+import json
+import plotly
+import plotly.express as px
+
 app = Flask(__name__)
 
 @app.route("/", methods=["GET"])
@@ -89,6 +94,32 @@ def fechando_pacote():
     #PACOTE TURISTICO
     print("########## FECHANDO PACOTE ##########\n") #ARMAZENAR NO BANCO
     return render_template('Pacote.html', content = dict_pacote)
+
+@app.route("/filtros", methods=["GET"])
+def get_filtro():
+    _dict = {
+        "cidade":["São Paulo", "Porto Alegre", "Belo Horizonte", "Manaus", "Rio de Janeiro"],
+    }
+
+    return render_template('Filtros.html', content =_dict)
+
+@app.route("/relatorio", methods=["POST"])
+def gerar_relatorio():
+    cidade1 = request.form.get('cidade1')
+    cidade2 = request.form.get('cidade2')
+    
+    df = pd.DataFrame({
+        'cidade': [cidade1, cidade2],
+        'Amount': [4, 5],
+        'City': [cidade1, cidade2]
+    })
+
+    #GERAR RELATORIO
+    print("########## GERANDO RELATORIO ##########\n")
+    fig = px.bar(df, x='cidade', y='Amount', color='City', barmode='group')
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    
+    return render_template('Relatorio.html', graphJSON=graphJSON)
 
 if __name__ == "__main__":
     app.secret_key = 'key'
