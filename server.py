@@ -98,9 +98,11 @@ def fechando_pacote():
 @app.route("/filtros", methods=["GET"])
 def get_filtro():
     _dict = {
-        "cidade":["São Paulo", "Porto Alegre", "Belo Horizonte", "Manaus", "Rio de Janeiro"],
+        "cidade":["São Paulo", "Porto Alegre", "Belo Horizonte", "Manaus", "Rio de Janeiro"]
     }
-
+    
+    #SELECIONAR FILTROS
+    print("########## SELECIONANDO FILTROS ##########\n")
     return render_template('Filtros.html', content =_dict)
 
 @app.route("/relatorio", methods=["POST"])
