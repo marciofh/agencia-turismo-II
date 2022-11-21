@@ -18,6 +18,7 @@ class ApiCidade:
         response = requests.request("GET", url, headers=headers, params=querystring)
         response = response.json()
         
+        #ARRUMAR ESSA LOGICA
         i = 0
         while response[i]['country_code'] != "BR" or 'Airports' in response[i]['name']:
             i += 1

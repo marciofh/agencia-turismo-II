@@ -25,6 +25,7 @@ class ApiHospedagem:
             response = requests.request("GET", url, headers=headers, params=querystring)
             response = response.json()
             dados = response['data']
+            print(dados)
             
             #apenas para verificação
             if len(dados) == 0:
