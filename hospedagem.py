@@ -25,7 +25,6 @@ class ApiHospedagem:
             response = requests.request("GET", url, headers=headers, params=querystring)
             response = response.json()
             dados = response['data']
-            print(dados)
             
             #apenas para verificação
             if len(dados) == 0:
@@ -59,4 +58,4 @@ class ApiHospedagem:
 
         return _dict
 
-# get_hotels(303631, 2, '2022-11-20', 2)
+# get_hotels(303631, 2, '2022-11-25', 2)

@@ -41,7 +41,7 @@ def get_response():
     Cidade.cadastraCidade(cidade) #ARMAZENA NO BANCO
 
     #API VOO
-    print("########## EXECUTANDO API VOO ##########\n")
+    print("\n########## EXECUTANDO API VOO ##########\n")
     dict_ida = ApiPassagem.get_passagem(session['data_ida'], session['passageiros'], dict_origem['aero_code'], dict_destino['aero_code'])
     dict_volta = ApiPassagem.get_passagem(session['data_volta'], session['passageiros'], dict_destino['aero_code'], dict_origem['aero_code'])
     
@@ -75,7 +75,6 @@ def get_hotel():
 
     #API HOTEL
     print("########## EXECUTANDO API HOTEL ##########\n")
-    dict_hoteis = ApiHospedagem.get_hotels(session["id_destino"], session["passageiros"], session["data_ida"], noites) 
     dict_hoteis = ApiHospedagem.get_hotels(session["id_destino"], session["passageiros"], session["data_ida"], noites) 
     
     lista_hospedagens = []
@@ -116,7 +115,7 @@ def fechando_pacote():
     }
 
     #PACOTE TURISTICO
-    print("########## FECHANDO PACOTE ##########\n") #ARMAZENAR NO BANCO
+    print("\n########## FECHANDO PACOTE ##########\n") #ARMAZENAR NO BANCO
     return render_template('Pacote.html', content = dict_pacote)
 
 @app.route("/filtros", methods=["GET"])

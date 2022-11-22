@@ -1,9 +1,9 @@
 import psycopg2
 import datetime
 
-string_sql = 'INSERT INTO turismo_schema.hospedagem (nome_hotel, preco, foto, avaliacao, estrelas, endereco) '\
+string_sql = 'INSERT INTO turismo_schema.atracao (nome_atracao,foto,categoria,endereco,n_views,avaliacao) '\
             'VALUES (%s, %s, %s, %s, %s, %s)'
-dados = ('Belo Horizonte', 'Rio de Janeiro', 'CNF', 'GIG', 2211.84, datetime.time(0, 10, 30), 2, 'Azul', datetime.datetime(2022, 11, 25, 8, 15), datetime.datetime(2022, 11, 25, 18, 45))
+dados = ('nome_atracao', 'foto', 'categoria', 'endereco', 0, 0)
 conn_string = "host='localhost' dbname='turismo' user='postgres' password='senha'"
 conn = None
 conexao = psycopg2.connect(conn_string) # abrir a conexão

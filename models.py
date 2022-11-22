@@ -37,9 +37,8 @@ class Cidade:
         except psycopg2.Error:
             print("error")
         finally:
-            if conn is not None:
-                print("O registro foi inserido com sucesso")
-                conn.close() # encerrando a conexão
+            print("Cidade cadastrada com sucesso!")
+            
     
     def consultaCidade(nome_cidade, self):
         string_sql = 'SELECT * FROM northwind.products WHERE nome_cidade = %s;'
@@ -89,9 +88,8 @@ class Passagem:
             finally:
                 conexao.commit()
                 sessao.close() # encerrando a sessão
-                if conn is not None:
-                    print("O registro foi inserido com sucesso")
-                    conn.close() # encerrando a conexão
+                print("Passagem cadastrada com sucesso!")
+                
 
 class Hospedagem:
     def __init__(self, nome_hotel, preco, foto, avaliacao, estrelas, endereco):
@@ -122,9 +120,8 @@ class Hospedagem:
             finally:
                 conexao.commit()
                 sessao.close() # encerrando a sessão
-                if conn is not None:
-                    print("O registro foi inserido com sucesso")
-                    conn.close() # encerrando a conexão
+                print("Hospedagem cadastrada com sucesso!")
+                
 
 class Atracao:
     def __init__(self, nome_atracao, foto, categoria, endereco, views, avaliacao):
@@ -140,7 +137,7 @@ class Atracao:
     
     def cadastraAtracoes(atracoes):
         for atracao in atracoes:
-            string_sql = 'INSERT INTO turismo_schema.hospedagem (nome_atracao,foto,categoria,endereco,n_views,avaliacao) '\
+            string_sql = 'INSERT INTO turismo_schema.atracao (nome_atracao,foto,categoria,endereco,n_views,avaliacao) '\
                 'VALUES (%s, %s, %s, %s, %s, %s)'
             dados = (atracao.nome_atracao, atracao.foto, atracao.categoria, atracao.endereco, atracao.views, atracao.avaliacao)
             conn_string = "host='localhost' dbname='turismo' user='postgres' password='senha'"
@@ -155,9 +152,8 @@ class Atracao:
             finally:
                 conexao.commit()
                 sessao.close() # encerrando a sessão
-                if conn is not None:
-                    print("O registro foi inserido com sucesso")
-                    conn.close() # encerrando a conexão
+                print("Atração cadastrada com sucesso!")
+                
 
 class Pacote:
     def __init__(self):
