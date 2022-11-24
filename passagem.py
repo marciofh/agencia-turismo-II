@@ -28,10 +28,6 @@ class ApiPassagem:
 
         for i in response:
             voo = {
-                "origem": response[i]['slice_data']['slice_0']['departure']['airport']['city'],
-                "destino": response[i]['slice_data']['slice_0']['arrival']['airport']['city'],
-                "aero_origem": response[i]['slice_data']['slice_0']['departure']['airport']['code'],
-                "aero_destino": response[i]['slice_data']['slice_0']['arrival']['airport']['code'],
                 "preco": response[i]['price_details']['display_total_fare_per_ticket'],
                 "duracao": response[i]['slice_data']['slice_0']['info']['duration'],
                 "qtde_conn": response[i]['slice_data']['slice_0']['info']['connection_count'],

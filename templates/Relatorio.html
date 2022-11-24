@@ -9,18 +9,3 @@
   var graphs = {{graphJSON | safe}};
   Plotly.plot('chart',graphs,{});
 </script>
-
-
-<table>
-  <tr>
-      <td>CIDADE</td>
-      <td>VALOR</td>
-  </tr>
-  {% for i in content %} 
-    <tr>
-      <td>{{valor['cidade']}}</td>
-      <td>{{valor['Amount']}}</td>
-    </tr>
-  {% endfor %}
-</table>
-</html>

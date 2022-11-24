@@ -23,7 +23,7 @@ class Cidade:
     
     def cadastraCidade(cidade):
         string_sql = 'INSERT INTO turismo_schema.cidade (nome_cidade, estado, location_id, aero_code, aero_nome) '\
-                     'VALUES (%s, %s, %s, %s, %s)'
+            'VALUES (%s, %s, %s, %s, %s)'
         dados = (cidade.nome_cidade, cidade.estado, cidade.location_id, cidade.aero_code, cidade.aero_nome)
         conn_string = "host='localhost' dbname='turismo' user='postgres' password='senha'"
         conn = None
@@ -34,33 +34,14 @@ class Cidade:
             sessao.execute(string_sql, dados)  # executando inserção
             conexao.commit()
             sessao.close() # encerrando a sessão
-        except psycopg2.Error:
-            print("error")
-        finally:
             print("Cidade cadastrada com sucesso!")
-            
-    
-    def consultaCidade(nome_cidade, self):
-        string_sql = 'SELECT * FROM northwind.products WHERE nome_cidade = %s;'
-        # conn_string = "host='localhost' dbname='Northwind' user='postgres' password='root'"
-        conn = None
-
-        try:
-            conexao = psycopg2.connect(BD.config(self)) # abrir a conexão
-            sessao = conexao.cursor()
-            sessao.execute(string_sql, nome_cidade)
-            registros = sessao.fetchall() #armazenando os resultados
-            conexao.commit()
-            sessao.close() # encerrando a sessão
         except psycopg2.Error:
             print("error")
 
 class Passagem:
-    def __init__(self, origem, destino, aero_origem, aero_destino, preco, duracao, qtde_conn, empresa, data_partida, data_chegada):
-        self.origem = origem
-        self.destino = destino
-        self.aero_origem = aero_origem
-        self.aero_destino = aero_destino
+    def __init__(self, origem_id, destino_id, preco, duracao, qtde_conn, empresa, data_partida, data_chegada):
+        self.origem_id = origem_id
+        self.destino_id = destino_id
         self.preco = preco
         self.duracao = duracao
         self.qtde_conn = qtde_conn
@@ -68,14 +49,14 @@ class Passagem:
         self.data_partida = data_partida
         self.data_chegada = data_chegada
     
-    def criaPassagem(_dict):
-        return Passagem(_dict['origem'], _dict['destino'], _dict['aero_origem'],_dict['aero_destino'],_dict['preco'], _dict['duracao'],_dict['qtde_conn'], _dict['empresa'], _dict['data_partida'], _dict['data_chegada'])
+    def criaPassagem(_dict, origem_id, destino_id):
+        return Passagem(origem_id, destino_id, _dict['preco'], _dict['duracao'], _dict['qtde_conn'], _dict['empresa'], _dict['data_partida'], _dict['data_chegada'])
     
     def cadastraPassagens(passagens):
         for passagem in passagens:
-            string_sql = 'INSERT INTO turismo_schema.passagem (origem,destino,aero_origem,aero_destino,preco,duracao,qtde_conn,empresa,data_partida,data_chegada) '\
-            'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'
-            dados = (passagem.origem, passagem.destino, passagem.aero_origem, passagem.aero_destino, passagem.preco, passagem.duracao, passagem.qtde_conn, passagem.empresa, passagem.data_partida, passagem.data_chegada)
+            string_sql = 'INSERT INTO turismo_schema.passagem (origem_id,destino_id,preco,duracao,qtde_conn,empresa,data_partida,data_chegada) '\
+                'VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
+            dados = (passagem.origem_id, passagem.destino_id, passagem.preco, passagem.duracao, passagem.qtde_conn, passagem.empresa, passagem.data_partida, passagem.data_chegada)
             conn_string = "host='localhost' dbname='turismo' user='postgres' password='senha'"
             conn = None
 
@@ -89,25 +70,43 @@ class Passagem:
                 conexao.commit()
                 sessao.close() # encerrando a sessão
                 print("Passagem cadastrada com sucesso!")
-                
+    
+    def selectPassagem(passagem):
+        string_sql = "SELECT passagem_id FROM turismo_schema.passagem "\
+            "WHERE preco = '{0}' AND duracao = '{1}' AND qtde_conn = {2} AND empresa = '{3}' AND data_partida = '{4}' AND data_chegada = '{5}';"
+        conn_string = "host='localhost' dbname='turismo' user='postgres' password='senha'"
+        conn = None
 
+        try:
+            conexao = psycopg2.connect(conn_string) # abrir a conexão
+            sessao = conexao.cursor()
+            sessao.execute(string_sql .format(passagem['preco'], passagem['duracao'], passagem['qtde_conn'], passagem['empresa'], passagem['data_partida'], passagem['data_chegada']))  # executando inserção
+            res = sessao.fetchall()
+        except psycopg2.Error:
+            print("error")
+        finally:
+            conexao.commit()
+            sessao.close() # encerrando a sessão
+            return res
+                
 class Hospedagem:
-    def __init__(self, nome_hotel, preco, foto, avaliacao, estrelas, endereco):
+    def __init__(self, nome_hotel, preco, foto, avaliacao, estrelas, endereco, cidade_id):
         self.nome_hotel = nome_hotel
         self.preco = preco
         self.foto = foto
         self.avaliacao = avaliacao
         self.estrelas = estrelas
         self.endereco = endereco
+        self.cidade_id = cidade_id
     
-    def criaHospedagem(_dict):
-        return Hospedagem(_dict['nome_hotel'], _dict['preco'], _dict['foto'], _dict['avaliacao'], _dict['estrelas'], _dict['endereco'])
+    def criaHospedagem(_dict, cidade_id):
+        return Hospedagem(_dict['nome_hotel'], _dict['preco'], _dict['foto'], _dict['avaliacao'], _dict['estrelas'], _dict['endereco'], cidade_id)
     
     def cadastraHospedagens(hospedagens):
         for hospedagem in hospedagens:
-            string_sql = 'INSERT INTO turismo_schema.hospedagem (nome_hotel, preco, foto, avaliacao, estrelas, endereco) '\
-                'VALUES (%s, %s, %s, %s, %s, %s)'
-            dados = (hospedagem.nome_hotel, hospedagem.preco, hospedagem.foto, hospedagem.avaliacao, hospedagem.estrelas, hospedagem.endereco)
+            string_sql = 'INSERT INTO turismo_schema.hospedagem (nome_hotel, preco, foto, avaliacao, estrelas, endereco, cidade_id) '\
+                'VALUES (%s, %s, %s, %s, %s, %s, %s)'
+            dados = (hospedagem.nome_hotel, hospedagem.preco, hospedagem.foto, hospedagem.avaliacao, hospedagem.estrelas, hospedagem.endereco, hospedagem.cidade_id)
             conn_string = "host='localhost' dbname='turismo' user='postgres' password='senha'"
             conn = None
         
@@ -121,25 +120,43 @@ class Hospedagem:
                 conexao.commit()
                 sessao.close() # encerrando a sessão
                 print("Hospedagem cadastrada com sucesso!")
-                
+    
+    def selectHospedagem(hospedagem):
+        string_sql = "SELECT hospedagem_id FROM turismo_schema.hospedagem "\
+            "WHERE nome_hotel = '{0}';"
+        conn_string = "host='localhost' dbname='turismo' user='postgres' password='senha'"
+        conn = None
 
+        try:
+            conexao = psycopg2.connect(conn_string) # abrir a conexão
+            sessao = conexao.cursor()
+            sessao.execute(string_sql .format(hospedagem['nome_hotel']))  # executando inserção
+            res = sessao.fetchall()
+        except psycopg2.Error:
+            print("error")
+        finally:
+            conexao.commit()
+            sessao.close() # encerrando a sessão
+            return res
+                
 class Atracao:
-    def __init__(self, nome_atracao, foto, categoria, endereco, views, avaliacao):
+    def __init__(self, nome_atracao, foto, categoria, endereco, views, avaliacao, cidade_id):
         self.nome_atracao = nome_atracao
         self.foto = foto
         self.categoria = categoria
         self.endereco = endereco
         self.views = views
         self.avaliacao = avaliacao
+        self.cidade_id = cidade_id
     
-    def criaAtracao(_dict):
-        return Atracao(_dict['nome_atracao'], _dict['foto'], _dict['categoria'], _dict['endereco'], _dict['views'], _dict['avaliacao'])
+    def criaAtracao(_dict, cidade_id):
+        return Atracao(_dict['nome_atracao'], _dict['foto'], _dict['categoria'], _dict['endereco'], _dict['views'], _dict['avaliacao'], cidade_id)
     
     def cadastraAtracoes(atracoes):
         for atracao in atracoes:
-            string_sql = 'INSERT INTO turismo_schema.atracao (nome_atracao,foto,categoria,endereco,n_views,avaliacao) '\
-                'VALUES (%s, %s, %s, %s, %s, %s)'
-            dados = (atracao.nome_atracao, atracao.foto, atracao.categoria, atracao.endereco, atracao.views, atracao.avaliacao)
+            string_sql = 'INSERT INTO turismo_schema.atracao (nome_atracao,foto,categoria,endereco,n_views,avaliacao,cidade_id) '\
+                'VALUES (%s, %s, %s, %s, %s, %s, %s)'
+            dados = (atracao.nome_atracao, atracao.foto, atracao.categoria, atracao.endereco, atracao.views, atracao.avaliacao, atracao.cidade_id)
             conn_string = "host='localhost' dbname='turismo' user='postgres' password='senha'"
             conn = None
 
@@ -152,12 +169,33 @@ class Atracao:
             finally:
                 conexao.commit()
                 sessao.close() # encerrando a sessão
-                print("Atração cadastrada com sucesso!")
-                
+                print("Atração cadastrada com sucesso!")        
 
 class Pacote:
-    def __init__(self):
-        pass
+    def __init__(self, passagem_id_ida, passagem_id_volta, hospedagem_id, valor_total, qtde_passageiro):
+        self.passagem_id_ida = passagem_id_ida
+        self.passagem_id_volta = passagem_id_volta
+        self.hospedagem_id = hospedagem_id
+        self.valor_total = valor_total
+        self.qtde_passageiro = qtde_passageiro
     
-    def criaPacote(_dict):
-        pass
+    def criaPacote(passagem_ida, passagem_volta, hospedagem_id, valor_pacote, passageiros):
+        return Pacote(passagem_ida, passagem_volta, hospedagem_id, valor_pacote, passageiros)
+    
+    def cadastraPacote(pacote):
+        string_sql = 'INSERT INTO turismo_schema.pacote (passagem_id_ida,passagem_id_volta,hospedagem_id,valor_total,qtde_passageiro) '\
+            'VALUES (%s, %s, %s, %s, %s)'
+        dados = (pacote.passagem_id_ida, pacote.passagem_id_volta, pacote.hospedagem_id, pacote.valor_total, pacote.qtde_passageiro)
+        conn_string = "host='localhost' dbname='turismo' user='postgres' password='senha'"
+        conn = None
+
+        try:
+            conexao = psycopg2.connect(conn_string) # abrir a conexão
+            sessao = conexao.cursor()
+            sessao.execute(string_sql, dados)  # executando inserção
+        except psycopg2.Error:
+            print("error")
+        finally:
+            conexao.commit()
+            sessao.close() # encerrando a sessão
+            print("Pacote cadastrado com sucesso!")
