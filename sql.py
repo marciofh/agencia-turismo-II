@@ -23,16 +23,11 @@ finally:
 
 # CREATE SCHEMA turismo_schema;
 
-# INSERT INTO turismo_schema.cidade (location_id, nome_cidade, estado, aero_code, aero_nome)
-# VALUES (1, 'teste2', 'TT', 'TES', 'Aeroporto de teste');
-
-# /*
 # DROP TABLE turismo_schema.cidade;
 # DROP TABLE turismo_schema.passagem;
 # DROP TABLE turismo_schema.hospedagem;
 # DROP TABLE turismo_schema.atracao;
 # DROP TABLE turismo_schema.pacote;
-# */
 
 # select * from turismo_schema.cidade;
 # select * from turismo_schema.passagem;
@@ -40,19 +35,24 @@ finally:
 # select * from turismo_schema.atracao;
 # select * from turismo_schema.pacote;
 
+# --PASSAGEM
 # select origem.nome_cidade as origem, origem.estado, destino.nome_cidade as destino, destino.estado, passagem.preco, passagem.duracao, passagem.qtde_conn, passagem.empresa, passagem.data_partida, passagem.data_chegada
 # from turismo_schema.passagem join turismo_schema.cidade as origem
 # on passagem.origem_id = origem.location_id
 # join turismo_schema.cidade as destino
 # on passagem.destino_id = destino.location_id;
 
+# --HOSPEDAGEM
 # select cidade.nome_cidade, cidade.estado, hospedagem.nome_hotel, hospedagem.preco, hospedagem.avaliacao, hospedagem.estrelas
 # from turismo_schema.hospedagem join turismo_schema.cidade
 # on hospedagem.cidade_id = cidade.location_id;
 
+# --ATRACA0
 # select cidade.nome_cidade, cidade.estado, atracao.nome_atracao, atracao.categoria, atracao.n_views, atracao.avaliacao
 # from turismo_schema.atracao join turismo_schema.cidade
 # on atracao.cidade_id = cidade.location_id;
+
+# --PACOTE
 
 # CREATE TABLE turismo_schema.cidade(
 # 	location_id integer NOT NULL ,

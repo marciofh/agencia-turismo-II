@@ -48,18 +48,20 @@ def get_response():
     lista_passagens = []
     #passagem de ida
     for passagem in dict_ida:
-         lista_passagens.append(Passagem.criaPassagem(passagem, session['id_origem'], session['id_destino'])) #ARMAZENA NO BANCO
-    Passagem.cadastraPassagens(lista_passagens)
+         lista_passagens.append(Passagem.criaPassagem(passagem, session['id_origem'], session['id_destino'])) 
+    Passagem.cadastraPassagens(lista_passagens) #ARMAZENA NO BANCO
     
     lista_passagens.clear() 
     #passagem de volta
     for passagem in dict_volta:
-         lista_passagens.append(Passagem.criaPassagem(passagem, session['id_destino'], session['id_origem'])) #ARMAZENA NO 
-    Passagem.cadastraPassagens(lista_passagens)
+         lista_passagens.append(Passagem.criaPassagem(passagem, session['id_destino'], session['id_origem'])) 
+    Passagem.cadastraPassagens(lista_passagens) #ARMAZENA NO BANCO
 
     dict_voos = {
         "ida": dict_ida,
         "volta": dict_volta,
+        "origem": dict_origem,
+        "destino": dict_destino,
     }
     
     return render_template('Passagem.html', content = dict_voos)
@@ -91,18 +93,18 @@ def fechando_pacote():
     ida = eval(session['voo_ida'])
     volta = eval(session['voo_volta'])
 
-    valor_pacote = (float(ida['preco']) + float(volta['preco'])) * float(session['passageiros']) + float(hotel['preco'] * float(session['noites'])) #calcula valor pacote
-    print(valor_pacote)
-
     #API ATRAÇÃO 
     print("########## EXECUTANDO API ATRACAO ##########\n")
-    dict_atracoes = ApiAtracao.get_atracao(session['id_destino'])
     dict_atracoes = ApiAtracao.get_atracao(session['id_destino'])
     
     lista_atracoes = []
     for atracao in dict_atracoes:
         lista_atracoes.append(Atracao.criaAtracao(atracao, session["id_destino"]))
-    Atracao.cadastraAtracoes(lista_atracoes)
+    Atracao.cadastraAtracoes(lista_atracoes) #ARMAZENA NO BANCO
+
+    #PACOTE TURISTICO
+    print("\n########## FECHANDO PACOTE ##########\n")
+    valor_pacote = (float(ida['preco']) + float(volta['preco'])) * float(session['passageiros']) + float(hotel['preco'] * float(session['noites'])) #calcula valor pacote
 
     dict_pacote = {
         'hotel': hotel,
@@ -111,22 +113,23 @@ def fechando_pacote():
         'passageiros': session["passageiros"],
         'noites': session['noites'],
         'atracoes': dict_atracoes,
-        'valor_pacote': valor_pacote #ALTERAR NO FRONT
+        'valor_pacote': valor_pacote 
     }
-
-    #PACOTE TURISTICO
-    print("\n########## FECHANDO PACOTE ##########\n") #ARMAZENAR NO BANCO
-    passagem_id_ida = Passagem.selectPassagem(ida)
-    passagem_id_ida =passagem_id_ida[0][0]
     
-    passagem_id_volta = Passagem.selectPassagem(volta)
-    passagem_id_volta = passagem_id_volta[0][0]
+    passagem_id_ida = Passagem.passagemSelecionada(ida) #busca id da passagem de ida
+    if passagem_id_ida != 'error':
+        passagem_id_ida = passagem_id_ida[0][0]
 
-    hospedagem_id = Hospedagem.selectHospedagem(hotel)
-    hospedagem_id = hospedagem_id[0][0]
+    passagem_id_volta = Passagem.passagemSelecionada(volta) #busca id da passagem de volta
+    if passagem_id_volta != 'error':
+        passagem_id_volta = passagem_id_volta[0][0]
 
-    pacote = Pacote.criaPacote(passagem_id_ida, passagem_id_volta, hospedagem_id, valor_pacote, session['passageiros'])
-    Pacote.cadastraPacote(pacote) #ARMAZENA NO BANCO
+    hospedagem_id = Hospedagem.hospedagemSelecionada(hotel) #busca id da hospedagem
+    if hospedagem_id != 'error':
+        hospedagem_id = hospedagem_id[0][0]
+
+        pacote = Pacote.criaPacote(passagem_id_ida, passagem_id_volta, hospedagem_id, valor_pacote, session['passageiros'])
+        Pacote.cadastraPacote(pacote) #ARMAZENA NO BANCO
 
     return render_template('Pacote.html', content = dict_pacote)
 
@@ -170,7 +173,6 @@ def gerar_relatorio():
     #     request.form.get('cidade')
 
     #     'select * from turismo_schema. where  '
-
 
     dados_banco = [{
         # 'cidade': [cidade1, cidade2],

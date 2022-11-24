@@ -27,10 +27,10 @@ class ApiHospedagem:
             dados = response['data']
             
             #apenas para verificação
-            if len(dados) == 0:
-                print('VAZIO\n')
-            else:
-                print('CHEIO\n')
+            # if len(dados) == 0:
+            #     print('VAZIO\n')
+            # else:
+            #     print('CHEIO\n')
 
         _dict = []
         for i in dados:

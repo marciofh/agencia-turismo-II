@@ -6,7 +6,7 @@ DBNAME = keys.get('DBNAME')
 USER = keys.get('USER')
 PASSWORD = keys.get('PASSWORD')
 
-class BD:
+class BD: #ARRUMAR ESSA CLASSE ##############################
     def config(self):
         return "host={0} dbname={1} user={2} password={3}".format(HOST, DBNAME, USER, PASSWORD)
 
@@ -26,17 +26,17 @@ class Cidade:
             'VALUES (%s, %s, %s, %s, %s)'
         dados = (cidade.nome_cidade, cidade.estado, cidade.location_id, cidade.aero_code, cidade.aero_nome)
         conn_string = "host='localhost' dbname='turismo' user='postgres' password='senha'"
-        conn = None
 
         try:
             conexao = psycopg2.connect(conn_string) # abrir a conexão
             sessao = conexao.cursor()
             sessao.execute(string_sql, dados)  # executando inserção
-            conexao.commit()
-            sessao.close() # encerrando a sessão
             print("Cidade cadastrada com sucesso!")
         except psycopg2.Error:
             print("error")
+        finally:
+            conexao.commit()
+            sessao.close() # encerrando a sessão
 
 class Passagem:
     def __init__(self, origem_id, destino_id, preco, duracao, qtde_conn, empresa, data_partida, data_chegada):
@@ -58,24 +58,22 @@ class Passagem:
                 'VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
             dados = (passagem.origem_id, passagem.destino_id, passagem.preco, passagem.duracao, passagem.qtde_conn, passagem.empresa, passagem.data_partida, passagem.data_chegada)
             conn_string = "host='localhost' dbname='turismo' user='postgres' password='senha'"
-            conn = None
 
             try:
                 conexao = psycopg2.connect(conn_string) # abrir a conexão
                 sessao = conexao.cursor()
                 sessao.execute(string_sql, dados)  # executando inserção
+                print("Passagem cadastrada com sucesso!")
             except psycopg2.Error:
-                print("error")
+                print("error")     
             finally:
                 conexao.commit()
-                sessao.close() # encerrando a sessão
-                print("Passagem cadastrada com sucesso!")
+                sessao.close() # encerrando a sessão       
     
-    def selectPassagem(passagem):
+    def passagemSelecionada(passagem):
         string_sql = "SELECT passagem_id FROM turismo_schema.passagem "\
             "WHERE preco = '{0}' AND duracao = '{1}' AND qtde_conn = {2} AND empresa = '{3}' AND data_partida = '{4}' AND data_chegada = '{5}';"
         conn_string = "host='localhost' dbname='turismo' user='postgres' password='senha'"
-        conn = None
 
         try:
             conexao = psycopg2.connect(conn_string) # abrir a conexão
@@ -83,7 +81,8 @@ class Passagem:
             sessao.execute(string_sql .format(passagem['preco'], passagem['duracao'], passagem['qtde_conn'], passagem['empresa'], passagem['data_partida'], passagem['data_chegada']))  # executando inserção
             res = sessao.fetchall()
         except psycopg2.Error:
-            print("error")
+            res = "error"
+            print(res)
         finally:
             conexao.commit()
             sessao.close() # encerrando a sessão
@@ -108,24 +107,22 @@ class Hospedagem:
                 'VALUES (%s, %s, %s, %s, %s, %s, %s)'
             dados = (hospedagem.nome_hotel, hospedagem.preco, hospedagem.foto, hospedagem.avaliacao, hospedagem.estrelas, hospedagem.endereco, hospedagem.cidade_id)
             conn_string = "host='localhost' dbname='turismo' user='postgres' password='senha'"
-            conn = None
         
             try:
                 conexao = psycopg2.connect(conn_string) # abrir a conexão
                 sessao = conexao.cursor()
                 sessao.execute(string_sql, dados)  # executando inserção
+                print("Hospedagem cadastrada com sucesso!")
             except psycopg2.Error:
                 print("error")
             finally:
                 conexao.commit()
                 sessao.close() # encerrando a sessão
-                print("Hospedagem cadastrada com sucesso!")
     
-    def selectHospedagem(hospedagem):
+    def hospedagemSelecionada(hospedagem):
         string_sql = "SELECT hospedagem_id FROM turismo_schema.hospedagem "\
             "WHERE nome_hotel = '{0}';"
         conn_string = "host='localhost' dbname='turismo' user='postgres' password='senha'"
-        conn = None
 
         try:
             conexao = psycopg2.connect(conn_string) # abrir a conexão
@@ -133,7 +130,8 @@ class Hospedagem:
             sessao.execute(string_sql .format(hospedagem['nome_hotel']))  # executando inserção
             res = sessao.fetchall()
         except psycopg2.Error:
-            print("error")
+            res = "error"
+            print(res)
         finally:
             conexao.commit()
             sessao.close() # encerrando a sessão
@@ -158,18 +156,17 @@ class Atracao:
                 'VALUES (%s, %s, %s, %s, %s, %s, %s)'
             dados = (atracao.nome_atracao, atracao.foto, atracao.categoria, atracao.endereco, atracao.views, atracao.avaliacao, atracao.cidade_id)
             conn_string = "host='localhost' dbname='turismo' user='postgres' password='senha'"
-            conn = None
 
             try:
                 conexao = psycopg2.connect(conn_string) # abrir a conexão
                 sessao = conexao.cursor()
                 sessao.execute(string_sql, dados)  # executando inserção
+                print("Atração cadastrada com sucesso!")        
             except psycopg2.Error:
                 print("error")
             finally:
                 conexao.commit()
                 sessao.close() # encerrando a sessão
-                print("Atração cadastrada com sucesso!")        
 
 class Pacote:
     def __init__(self, passagem_id_ida, passagem_id_volta, hospedagem_id, valor_total, qtde_passageiro):
@@ -187,15 +184,14 @@ class Pacote:
             'VALUES (%s, %s, %s, %s, %s)'
         dados = (pacote.passagem_id_ida, pacote.passagem_id_volta, pacote.hospedagem_id, pacote.valor_total, pacote.qtde_passageiro)
         conn_string = "host='localhost' dbname='turismo' user='postgres' password='senha'"
-        conn = None
 
         try:
             conexao = psycopg2.connect(conn_string) # abrir a conexão
             sessao = conexao.cursor()
             sessao.execute(string_sql, dados)  # executando inserção
+            print("Pacote cadastrado com sucesso!")
         except psycopg2.Error:
             print("error")
         finally:
             conexao.commit()
             sessao.close() # encerrando a sessão
-            print("Pacote cadastrado com sucesso!")

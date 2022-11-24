@@ -25,10 +25,10 @@
                 {% for valor in content['ida'] %} 
                   <div class="row">
                     <div class="col">
-                      {{valor['origem']}} ({{valor['aero_origem']}}) - {{valor['data_partida']}}
+                      {{content['origem']['nome_cidade']}} ({{content['origem']['aero_code']}}) - {{valor['data_partida']}}
                     </div>
                     <div class="col">
-                      {{valor['destino']}} ({{valor['aero_destino']}}) - {{valor['data_chegada']}}
+                      {{content['destino']['nome_cidade']}} ({{content['destino']['aero_code']}}) - {{valor['data_chegada']}}
                     </div>
                     <div class="col">
                       {{valor['duracao']}}
@@ -61,10 +61,10 @@
                 {% for valor in content['volta'] %} 
                   <div class="row">
                     <div class="col">
-                      {{valor['origem']}} ({{valor['aero_origem']}}) - {{valor['data_partida']}}
+                      {{content['destino']['nome_cidade']}} ({{content['destino']['aero_code']}}) - {{valor['data_chegada']}}
                     </div>
                     <div class="col">
-                      {{valor['destino']}} ({{valor['aero_destino']}}) - {{valor['data_chegada']}}
+                      {{content['origem']['nome_cidade']}} ({{content['origem']['aero_code']}}) - {{valor['data_partida']}}
                     </div>
                     <div class="col">
                       {{valor['duracao']}}

@@ -18,9 +18,8 @@ class ApiCidade:
         response = requests.request("GET", url, headers=headers, params=querystring)
         response = response.json()
         
-        #ARRUMAR ESSA LOGICA
         i = 0
-        while response[i]['country_code'] != "BR" or 'Airports' in response[i]['name']:
+        while response[i]['country_code'] != "BR" or 'Airports' in response[i]['name'] or 'Aeroportos' in response[i]['name']:
             i += 1
 
         _dict = {
@@ -30,7 +29,7 @@ class ApiCidade:
             "aero_code" : response[i]['code'],
             "aero_nome": response[i]['name']
         }
-
+        print(_dict)
         return _dict
 
-# get_location('São Paulo')
+# get_location('Belo Horizonte')
