@@ -37,8 +37,8 @@ def get_response():
     print("########## EXECUTANDO API CIDADE ##########\n")
     dict_origem = ApiCidade.get_location(session["origem"])
     dict_destino = ApiCidade.get_location(session["destino"])
-    session["id_origem"] = dict_origem["location_id"]
-    session["id_destino"] = dict_destino["location_id"]
+    session["origem"] = dict_origem
+    session["destino"] = dict_destino
     
     #cidade de origem
     cidade = Cidade.criaCidade(dict_origem) 
@@ -59,13 +59,13 @@ def get_response():
     lista_passagens = []
     #passagem de ida
     for passagem in dict_ida:
-         lista_passagens.append(Passagem.criaPassagem(passagem, session['id_origem'], session['id_destino'])) 
+         lista_passagens.append(Passagem.criaPassagem(passagem, dict_origem['location_id'], dict_destino['location_id'])) 
     Passagem.cadastraPassagens(lista_passagens) #ARMAZENA NO BANCO
     
     lista_passagens.clear() 
     #passagem de volta
     for passagem in dict_volta:
-         lista_passagens.append(Passagem.criaPassagem(passagem, session['id_destino'], session['id_origem'])) 
+         lista_passagens.append(Passagem.criaPassagem(passagem, dict_destino['location_id'], dict_origem['location_id'])) 
     Passagem.cadastraPassagens(lista_passagens) #ARMAZENA NO BANCO
 
     dict_voos = {
@@ -105,14 +105,16 @@ def fechando_pacote():
     hotel = eval(hotel)
     ida = eval(session['voo_ida'])
     volta = eval(session['voo_volta'])
+    origem = session['origem']
+    destino = session['destino']
 
     #API ATRAÇÃO 
     print("########## EXECUTANDO API ATRACAO ##########\n")
-    dict_atracoes = ApiAtracao.get_atracao(session['id_destino'])
+    dict_atracoes = ApiAtracao.get_atracao(destino['location_id'])
     
     lista_atracoes = []
     for atracao in dict_atracoes:
-        lista_atracoes.append(Atracao.criaAtracao(atracao, session["id_destino"]))
+        lista_atracoes.append(Atracao.criaAtracao(atracao, destino['location_id']))
     Atracao.cadastraAtracoes(lista_atracoes) #ARMAZENA NO BANCO
 
     #PACOTE TURISTICO
@@ -126,7 +128,9 @@ def fechando_pacote():
         'passageiros': session["passageiros"],
         'noites': session['noites'],
         'atracoes': dict_atracoes,
-        'valor_pacote': valor_pacote 
+        'valor_pacote': valor_pacote,
+        'origem': origem,
+        'destino': destino
     }
     
     passagem_id_ida = Passagem.passagemSelecionada(ida) #busca id da passagem de ida

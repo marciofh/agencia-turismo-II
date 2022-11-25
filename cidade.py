@@ -29,7 +29,7 @@ class ApiCidade:
             "aero_code" : response[i]['code'],
             "aero_nome": response[i]['name']
         }
-
+        
         return _dict
 
 # get_location('Belo Horizonte')
