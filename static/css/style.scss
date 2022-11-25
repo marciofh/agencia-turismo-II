@@ -1,0 +1,303 @@
+@import url(https://rsms.me/inter/inter.css);
+
+a {
+    color: #000;
+  }
+h2{
+    font-family: 'Arial', sans-serif;
+    font-weight: 700;
+}
+
+  .w-70{
+    width: 70% !important;
+  }
+
+  /* header */
+  
+  .logo-nome{
+      font-family: 'Arial', sans-serif;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 36px;
+      line-height: 42px;
+      color: #C90909;
+  }
+  
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000;
+    font-size: 24px;
+  }
+  
+  .header ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow: hidden;
+    background-color: #fff;
+  }
+  
+  .header li a {
+    display: block;
+    padding: 20px 20px;
+    text-decoration: none;
+    color: white;
+  }
+  
+  .header li a:hover {
+    background-color: #e75959;
+  }
+  
+  .header .logo {
+    display: block;
+    float: left;
+    font-size: 2em;
+    padding: 10px 20px;
+    text-decoration: none;
+  }
+  
+  /* menu */
+  
+  .header .menu {
+    clear: both;
+    max-height: 0;
+    transition: max-height .2s ease-out;
+    background-color: #000;
+    color: white;
+  }
+
+  /* Ajuste do componente da data */
+
+  .form-date{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .date-w{
+    width: 496px;
+  }
+
+  /* Botão */
+
+  .btn{
+    width: 354px;
+    height: 55px;
+    left: 564px;
+    top: 708px;
+    background: #C90909;
+    box-shadow: 2px 4px 8px rgb(0 0 0 / 25%);
+    border-radius: 15px;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 33px;
+    border: none;
+    color: white;
+  }
+
+  .btn:hover{
+    color: white;
+    background: #950a0a;
+  }
+   
+
+  /* Footer */
+
+  footer{
+    background-color: #272727;
+    text-align: center;
+    text-transform: uppercase;
+    margin-top: auto;
+    // position: fixed;
+    line-height: 30px;
+    width: 100%;
+    bottom: 0;
+}
+
+.footer-copyright{
+    background-color:#000;
+    color: #ffffff;
+    padding: 15px;
+    text-transform: capitalize;
+}
+
+.footer-copyright p{
+    margin-bottom: 0px;
+}
+
+  /* 48em = 768px */
+  
+  @media (min-width: 48em) {
+    .header li {
+      float: left;
+    }
+    .header li a {
+      padding: 20px 30px;
+    }
+    .header .menu {
+      clear: none;
+      float: right;
+      max-height: none;
+    }
+    .header .menu-icon {
+      display: none;
+    }
+  }
+
+  @import url('https://rsms.me/inter/inter.css');
+
+:root {
+  --color-light: white;
+  --color-dark: #212121;
+  --color-signal: #fab700;
+  
+  --color-background: var(--color-light);
+  --color-text: var(--color-dark);
+  --color-accent: var(--color-signal);
+  
+  --size-bezel: .5rem;
+  --size-radius: 4px;
+  
+  line-height: 1.4;
+  
+  font-family: 'Inter', sans-serif;
+  font-size: calc(.6rem + .4vw);
+  color: var(--color-text);
+  background: var(--color-background);
+  font-weight: 300;
+}
+
+.card {
+  border: none !important;
+  &--inverted {
+    --color-background: var(--color-dark);
+    color: #000;
+    --color-shadow: var(--color-accent);
+  }
+.input {
+  position: relative;
+  
+  &__label {
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: calc(.5rem * 0.75) calc(.5rem * .5);
+    margin: calc(.5rem * 0.75 + 3px) calc(.5rem * .5);
+    white-space: nowrap;
+    transform: translate(0, 0);
+    transform-origin: 0 0;
+    transition: transform 120ms ease-in;
+    line-height: 1.2;
+    font-weight: 500;
+  }
+  &__field {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    padding: calc(.5rem * 1.5) .5rem;
+    color: currentColor;
+    background: transparent;
+    border-radius: 5px;
+    
+    &:focus,
+    &:not(:placeholder-shown) {
+      & + .input__label {
+        transform: translate(.25rem, -65%) scale(.8);
+      }
+    }
+  }
+}}
+
+/* PASSAGEM */
+.conteudo{
+  background: #F6F7F8;
+  border: 1px solid #8C8C8C;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  margin-bottom: 24px;
+}
+
+.accordion-button, .accordion-button:not(.collapsed){
+  background: #F6F7F8;
+  color: #000;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 23px;
+  text-align: center;
+  box-shadow: none;
+}
+
+.dados-passagem{
+  // margin-bottom: 10px;
+  // font-size: 20px;
+  // font-weight: 500;
+  // text-align: left;
+
+  display: flex;
+  gap: 15px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+// Hospedagem
+
+.hospedagem{
+  display: flex;
+}
+
+.dados-hospedagem{
+  text-align: left;
+  font-size: 14px;
+  padding-right: 0;
+}
+
+.btn-hospedagem{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+}
+
+.finalizar{
+  margin-top: 20px;
+}
+
+.accordion-item:not(:first-of-type){
+  border-top: 1px solid rgba(0,0,0,.125);;
+}
+
+.conteudo-hospedagem{
+  width: 500px;
+  margin: 5px;
+}
+
+.botaoEscolher{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.dados-hospedagem > div > div > span, 
+.dados-hospedagem > div > span{
+  font-weight: 700;
+}
+
+.nome_hotel{
+  font-size: 20px;
+  text-align: center;
+  font-weight: 700;
+  margin: 10px 0;
+}
+
+// Pacote
+.conteudo-pacote{
+  border: 1px solid gray;
+  border-radius: 10px;
+}

@@ -1,0 +1,117 @@
+<html>
+    <head>
+        <meta charset="utf-8">        
+        <title>Passagens</title>        
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+        <script type="text/javascript" src="../static/js/script.js"></script>
+    </head>
+    <body>
+      <header class="header">
+        <a href="" class="logo"><img src="../static/img/UaiTrip_logo _1.png"></a>
+        <ul class="menu">
+            <li><a href="/">Monte seu pacote</a></li>
+            <li><a href="/filtros">Relatórios</a></li>
+        </ul>
+        </header>
+
+        <div class="logo-nome">
+           <img src="../static/img/UaiTrip_logo _1.png">UaiTrip
+        </div>
+
+        <div class="text-center center-div" id=login>
+          <div class="container w-70">
+              <div class="title pb-5">
+                  <h2 class="font-weight-bold text-center center-div">MONTE SEU PACOTE</h2>
+              </div>    
+                <form action="/hospedagem" method="post" class="form-passagem">
+                  <div class="accordion" id="accordionPanelsStayOpenExample">
+                    <div class="conteudo">
+                      <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                          Passagens de Ida
+                        </button>
+                      </h2>
+                      <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body">
+                          {% for valor in content['ida'] %} 
+                            <div class="dados-passagem">
+                              <div>
+                                <input type="radio" name="voo_ida" value="{{valor}}" required>
+                              </div>
+                              <div>
+                                <span>{{content['origem']['nome_cidade']}} ({{content['origem']['aero_code']}}) - {{valor['data_partida']}}</span>
+                              </div>
+                              <div>
+                                <span>{{content['destino']['nome_cidade']}} ({{content['destino']['aero_code']}}) - {{valor['data_chegada']}}</span>
+                              </div>
+                              <div>
+                                <span>{{valor['duracao']}}</span>
+                              </div>
+                              <div>
+                                <span>{{valor['qtde_conn']}}</span>
+                              </div>
+                              <div>
+                                <span>R$ {{valor['preco']}}</span>
+                              </div>
+                              <div>
+                                <span>{{valor['empresa']}}</span>
+                              </div>
+                            </div>
+                          {% endfor %}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="accordion-item conteudo">
+                      <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                          Passagens de Volta
+                        </button>
+                      </h2>
+                      <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                          {% for valor in content['volta'] %} 
+                            <div class="dados-passagem">
+                              <div>
+                                <input type="radio" name="voo_volta" value="{{valor}}" required></td>
+                              </div>
+                              <div>
+                                {{content['destino']['nome_cidade']}} ({{content['destino']['aero_code']}}) - {{valor['data_chegada']}}
+                              </div>
+                              <div>
+                                {{content['origem']['nome_cidade']}} ({{content['origem']['aero_code']}}) - {{valor['data_partida']}}
+                              </div>
+                              <div>
+                                {{valor['duracao']}}
+                              </div>
+                              <div>
+                                {{valor['qtde_conn']}}
+                              </div>
+                              <div>
+                                R$ {{valor['preco']}}
+                              </div>
+                              <div>
+                                {{valor['empresa']}}
+                              </div>
+                            </div>
+                          {% endfor %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="submit" id="next">Próximo</button>
+                  </div>
+                  
+                </form>
+              </div>
+            </div>  
+            <footer>
+              <div class="footer-copyright">
+                  <p>© 2022 UAITRIP. Todos os direitos reservados. </p>
+              </div>
+          </footer>
+    </body>
+</html>

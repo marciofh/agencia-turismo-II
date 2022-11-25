@@ -11,6 +11,11 @@ from passagem import ApiPassagem
 from hospedagem import ApiHospedagem
 from models import Cidade, Passagem, Hospedagem, Atracao, Pacote
 
+#CADASTRAR CIDADE ORIGEM E DESTINO
+#TODA CIDADE TEM HOTEL E ATRAÇÃO
+#NEM TODA CIDADE TEM PASSAGEM
+#CONSULTAR DE PACOTE EXISTE ?
+
 app = Flask(__name__)
 
 @app.route("/", methods=["GET"])
@@ -25,6 +30,9 @@ def get_response():
     session["data_ida"] = request.form.get('data_ida')
     session["data_volta"] = request.form.get('data_volta')
 
+    #procura se a cidade de origem existe no banco de dados
+
+    #if not cidade:
     #API CIDADE    
     print("########## EXECUTANDO API CIDADE ##########\n")
     dict_origem = ApiCidade.get_location(session["origem"])
@@ -40,6 +48,9 @@ def get_response():
     cidade = Cidade.criaCidade(dict_destino) 
     Cidade.cadastraCidade(cidade) #ARMAZENA NO BANCO
 
+    #procura se tem passagem de ida e volta
+
+    #if not passagem:
     #API VOO
     print("\n########## EXECUTANDO API VOO ##########\n")
     dict_ida = ApiPassagem.get_passagem(session['data_ida'], session['passageiros'], dict_origem['aero_code'], dict_destino['aero_code'])
@@ -74,7 +85,8 @@ def get_hotel():
     data_ida = datetime.datetime.strptime(session["data_ida"], "%Y-%m-%d").date()
     data_volta = datetime.datetime.strptime(session["data_volta"], "%Y-%m-%d").date()
     session['noites'] = (data_volta - data_ida).days
-
+    
+    #if not cidade:
     #API HOTEL
     print("########## EXECUTANDO API HOTEL ##########\n")
     dict_hoteis = ApiHospedagem.get_hotels(session["id_destino"], session["passageiros"], session["data_ida"], session['noites']) 
@@ -83,6 +95,7 @@ def get_hotel():
     for hospedagem in dict_hoteis:
         lista_hospedagens.append(Hospedagem.criaHospedagem(hospedagem, session["id_destino"]))
     Hospedagem.cadastraHospedagens(lista_hospedagens) #ARMAZENA NO BANCO
+    #cadastrar hospedagem de cidade origem
     
     return render_template('Hospedagem.html', content = dict_hoteis)
 
@@ -104,7 +117,7 @@ def fechando_pacote():
 
     #PACOTE TURISTICO
     print("\n########## FECHANDO PACOTE ##########\n")
-    valor_pacote = (float(ida['preco']) + float(volta['preco'])) * float(session['passageiros']) + float(hotel['preco'] * float(session['noites'])) #calcula valor pacote
+    valor_pacote = round((float(ida['preco']) + float(volta['preco'])) * float(session['passageiros']) + float(hotel['preco'] * float(session['noites']))) #calcula valor pacote
 
     dict_pacote = {
         'hotel': hotel,

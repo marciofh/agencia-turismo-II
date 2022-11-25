@@ -91,11 +91,13 @@ h2 {
   font-weight: 700;
   font-size: 28px;
   line-height: 33px;
+  border: none;
   color: white;
 }
 
 .btn:hover {
   color: white;
+  background: #950a0a;
 }
 
 /* Footer */
@@ -104,6 +106,9 @@ footer {
   text-align: center;
   text-transform: uppercase;
   margin-top: auto;
+  line-height: 30px;
+  width: 100%;
+  bottom: 0;
 }
 
 .footer-copyright {
@@ -192,4 +197,88 @@ footer {
 }
 .card .input__field:focus + .input__label, .card .input__field:not(:placeholder-shown) + .input__label {
   transform: translate(0.25rem, -65%) scale(0.8);
+}
+
+/* PASSAGEM */
+.conteudo {
+  background: #F6F7F8;
+  border: 1px solid #8C8C8C;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  margin-bottom: 24px;
+}
+
+.accordion-button, .accordion-button:not(.collapsed) {
+  background: #F6F7F8;
+  color: #000;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 23px;
+  text-align: center;
+  box-shadow: none;
+}
+
+.dados-passagem {
+  display: flex;
+  gap: 15px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.hospedagem {
+  display: flex;
+}
+
+.dados-hospedagem {
+  text-align: left;
+  font-size: 14px;
+  padding-right: 0;
+}
+
+.btn-hospedagem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+}
+
+.finalizar {
+  margin-top: 20px;
+}
+
+.accordion-item:not(:first-of-type) {
+  border-top: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.conteudo-hospedagem {
+  width: 500px;
+  margin: 5px;
+}
+
+.botaoEscolher {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.dados-hospedagem > div > div > span,
+.dados-hospedagem > div > span {
+  font-weight: 700;
+}
+
+.nome_hotel {
+  font-size: 20px;
+  text-align: center;
+  font-weight: 700;
+  margin: 10px 0;
+}
+
+.conteudo-pacote {
+  border: 1px solid gray;
+  border-radius: 10px;
 }/*# sourceMappingURL=style.css.map */
