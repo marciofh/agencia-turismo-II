@@ -98,8 +98,8 @@ class Hospedagem:
         self.endereco = endereco
         self.cidade_id = cidade_id
     
-    def criaHospedagem(_dict, cidade_id):
-        return Hospedagem(_dict['nome_hotel'], _dict['preco'], _dict['foto'], _dict['avaliacao'], _dict['estrelas'], _dict['endereco'], cidade_id)
+    def criaHospedagem(_dict):
+        return Hospedagem(_dict['nome_hotel'], _dict['preco'], _dict['foto'], _dict['avaliacao'], _dict['estrelas'], _dict['endereco'], _dict['cidade_id'])
     
     def cadastraHospedagens(hospedagens):
         for hospedagem in hospedagens:
@@ -147,8 +147,8 @@ class Atracao:
         self.avaliacao = avaliacao
         self.cidade_id = cidade_id
     
-    def criaAtracao(_dict, cidade_id):
-        return Atracao(_dict['nome_atracao'], _dict['foto'], _dict['categoria'], _dict['endereco'], _dict['views'], _dict['avaliacao'], cidade_id)
+    def criaAtracao(_dict):
+        return Atracao(_dict['nome_atracao'], _dict['foto'], _dict['categoria'], _dict['endereco'], _dict['views'], _dict['avaliacao'], _dict['cidade_id'])
     
     def cadastraAtracoes(atracoes):
         for atracao in atracoes:

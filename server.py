@@ -89,11 +89,11 @@ def get_hotel():
     #if not cidade:
     #API HOTEL
     print("########## EXECUTANDO API HOTEL ##########\n")
-    dict_hoteis = ApiHospedagem.get_hotels(session["id_destino"], session["passageiros"], session["data_ida"], session['noites']) 
+    dict_hoteis = ApiHospedagem.get_hotels(session["destino"]["location_id"], session["passageiros"], session["data_ida"], session['noites']) 
     
     lista_hospedagens = []
     for hospedagem in dict_hoteis:
-        lista_hospedagens.append(Hospedagem.criaHospedagem(hospedagem, session["id_destino"]))
+        lista_hospedagens.append(Hospedagem.criaHospedagem(hospedagem))
     Hospedagem.cadastraHospedagens(lista_hospedagens) #ARMAZENA NO BANCO
     #cadastrar hospedagem de cidade origem
     
@@ -114,7 +114,7 @@ def fechando_pacote():
     
     lista_atracoes = []
     for atracao in dict_atracoes:
-        lista_atracoes.append(Atracao.criaAtracao(atracao, destino['location_id']))
+        lista_atracoes.append(Atracao.criaAtracao(atracao))
     Atracao.cadastraAtracoes(lista_atracoes) #ARMAZENA NO BANCO
 
     #PACOTE TURISTICO

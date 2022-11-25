@@ -41,7 +41,8 @@ class ApiHospedagem:
                     "foto": i['photo']['images']['small']['url'],
                     "avaliacao": i['raw_ranking'],
                     "estrelas": i['hotel_class'],
-                    "endereco": i['address']
+                    "endereco": i['address'],
+                    "cidade_id": i["ranking_geo_id"]
                 }
             
                 hotel['avaliacao'] = float(hotel['avaliacao'])

@@ -31,7 +31,8 @@ class ApiAtracao:
                     "categoria": i['subcategory'][0]['name'],
                     "endereco": i['address'],
                     "views": i['num_reviews'],
-                    "avaliacao": i['rating']
+                    "avaliacao": i['rating'],
+                    "cidade_id": i['ranking_geo_id']
                 }  
 
                 atracao['views'] = int(atracao['views'])
