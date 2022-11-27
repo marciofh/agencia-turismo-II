@@ -1,24 +1,36 @@
 import psycopg2
 import datetime
 
-hospedagem = {'preco': 1494.19, 'duracao': datetime.time(1, 2, 25), 'qtde_conn': 2, 'nome_hotel': 'Novotel Rio De Janeiro Parque Olímpico', 'data_partida': datetime.datetime(2022, 11, 25, 5, 30), 'data_chegada': datetime.datetime(2022, 11, 26, 6, 55)}
-
-string_sql = "SELECT hospedagem_id FROM turismo_schema.hospedagem "\
-            "WHERE nome_hotel = '{0}';"
+string_sql = "SELECT * FROM turismo_schema.atracao "\
+            "WHERE cidade_id = '{0}';"
 conn_string = "host='localhost' dbname='turismo' user='postgres' password='senha'"
-conn = None
-
 try:
     conexao = psycopg2.connect(conn_string) # abrir a conexão
     sessao = conexao.cursor()
-    sessao.execute(string_sql .format(hospedagem['nome_hotel']))  # executando inserção
+    sessao.execute(string_sql .format('303546'))  # executando consulta
     res = sessao.fetchall()
+    print(res)
+    if len(res) != 0:
+        lista_atracao = []
+        for i in res:
+            atracao = {
+                "nome_atracao": i[0],
+                "foto": i[1],
+                "categoria": i[2],
+                "endereco": i[3],
+                "views": i[4],
+                "avaliacao": i[5]
+            }
+            lista_atracao.append(atracao)
+            print(atracao)
+    else:
+        lista_atracao = None
 except psycopg2.Error:
     print("error")
 finally:
     conexao.commit()
-    sessao.close() # encerrando a sessão
-    print(res)
+    sessao.close()
+
 
 
 # CREATE SCHEMA turismo_schema;

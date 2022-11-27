@@ -37,7 +37,34 @@ class Cidade:
         finally:
             conexao.commit()
             sessao.close() # encerrando a sessão
+    
+    def consultaCidade(nome_cidade):
+        string_sql = "SELECT * FROM turismo_schema.cidade WHERE nome_cidade = '{0}';"
+        conn_string = "host='localhost' dbname='turismo' user='postgres' password='senha'"
 
+        try:
+            conexao = psycopg2.connect(conn_string) # abrir a conexão
+            sessao = conexao.cursor()
+            sessao.execute(string_sql .format(nome_cidade))  # executando inserção
+            res = sessao.fetchone()
+            if res != None:
+                _dict = {
+                "location_id": res[0],
+                "nome_cidade": res[1],
+                "estado": res[2],
+                "aero_code": res[3],
+                "aero_nome": res[4]
+                }
+            else:
+                _dict = None
+        except psycopg2.Error:
+            print("error")
+        finally:
+            conexao.commit()
+            sessao.close() # encerrando a sessão
+            
+            return _dict
+            
 class Passagem:
     def __init__(self, origem_id, destino_id, preco, duracao, qtde_conn, empresa, data_partida, data_chegada):
         self.origem_id = origem_id
@@ -69,6 +96,39 @@ class Passagem:
             finally:
                 conexao.commit()
                 sessao.close() # encerrando a sessão       
+    
+    def consultaPassagem(origem_id, destino_id, data_partida):
+        string_sql = "SELECT * FROM turismo_schema.passagem "\
+            "WHERE origem_id = '{0}' AND destino_id = '{1}' AND date(data_partida) = '{2}';"
+        conn_string = "host='localhost' dbname='turismo' user='postgres' password='senha'"
+
+        try:
+            conexao = psycopg2.connect(conn_string) # abrir a conexão
+            sessao = conexao.cursor()
+            sessao.execute(string_sql .format(origem_id, destino_id, data_partida)) # executando consulta
+            res = sessao.fetchall()
+            if len(res) != 0:
+                lista_passagem = []
+                for i in res:
+                    voo = {
+                        "preco": i[3],
+                        "duracao": i[4],
+                        "qtde_conn": i[5],
+                        "empresa": i[6],
+                        "data_partida": i[7],
+                        "data_chegada": i[8]
+                    }
+                    lista_passagem.append(voo)
+                    print(voo)
+            else:
+                lista_passagem = None
+        except psycopg2.Error:
+            print("error")
+        finally:
+            conexao.commit()
+            sessao.close() # encerrando a sessão
+            
+            return lista_passagem
     
     def passagemSelecionada(passagem):
         string_sql = "SELECT passagem_id FROM turismo_schema.passagem "\
@@ -119,6 +179,37 @@ class Hospedagem:
                 conexao.commit()
                 sessao.close() # encerrando a sessão
     
+    def consultaHospedagem(cidade_id):
+        string_sql = "SELECT * FROM turismo_schema.hospedagem " \
+            "WHERE cidade_id = '{0}';"
+        conn_string = "host='localhost' dbname='turismo' user='postgres' password='senha'"
+        try:
+            conexao = psycopg2.connect(conn_string) # abrir a conexão
+            sessao = conexao.cursor()
+            sessao.execute(string_sql .format(cidade_id))  # executando consulta
+            res = sessao.fetchall()
+            if len(res) != 0:
+                lista_hospedagem = []
+                for i in res:
+                    hotel = {
+                        "nome_hotel": i[2],
+                        "preco" : i[3],
+                        "foto": i[4],
+                        "avaliacao": i[5],
+                        "estrelas": i[6],
+                        "endereco": i[7]
+                    }
+                    lista_hospedagem.append(hotel)
+                    print(hotel)
+            else:
+                lista_hospedagem = None
+        except psycopg2.Error:
+            print("error")
+        finally:
+            conexao.commit()
+            sessao.close() # encerrando a sessão
+            return lista_hospedagem 
+    
     def hospedagemSelecionada(hospedagem):
         string_sql = "SELECT hospedagem_id FROM turismo_schema.hospedagem "\
             "WHERE nome_hotel = '{0}';"
@@ -127,7 +218,7 @@ class Hospedagem:
         try:
             conexao = psycopg2.connect(conn_string) # abrir a conexão
             sessao = conexao.cursor()
-            sessao.execute(string_sql .format(hospedagem['nome_hotel']))  # executando inserção
+            sessao.execute(string_sql .format(hospedagem['nome_hotel']))  # executando consulta
             res = sessao.fetchall()
         except psycopg2.Error:
             res = "error"
@@ -167,6 +258,37 @@ class Atracao:
             finally:
                 conexao.commit()
                 sessao.close() # encerrando a sessão
+    
+    def consultaAtracao(cidade_id):
+        string_sql = "SELECT * FROM turismo_schema.atracao "\
+            "WHERE cidade_id = '{0}';"
+        conn_string = "host='localhost' dbname='turismo' user='postgres' password='senha'"
+        try:
+            conexao = psycopg2.connect(conn_string) # abrir a conexão
+            sessao = conexao.cursor()
+            sessao.execute(string_sql .format(cidade_id))  # executando consulta
+            res = sessao.fetchall()
+            if len(res) != 0:
+                lista_atracao = []
+                for i in res:
+                    atracao = {
+                        "nome_atracao": i[2],
+                        "foto": i[3],
+                        "categoria": i[4],
+                        "endereco": i[5],
+                        "views": i[6],
+                        "avaliacao": i[7]
+                    }
+                    lista_atracao.append(atracao)
+                    print(atracao)
+            else:
+                lista_atracao = None
+        except psycopg2.Error:
+            print("error")
+        finally:
+            conexao.commit()
+            sessao.close()
+            return lista_atracao
 
 class Pacote:
     def __init__(self, passagem_id_ida, passagem_id_volta, hospedagem_id, valor_total, qtde_passageiro):

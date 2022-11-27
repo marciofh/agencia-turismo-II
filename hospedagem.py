@@ -32,7 +32,7 @@ class ApiHospedagem:
             # else:
             #     print('CHEIO\n')
 
-        _dict = []
+        lista_hoteis = []
         for i in dados:
             try:
                 hotel = {
@@ -53,10 +53,10 @@ class ApiHospedagem:
                 hotel['preco'] = re.sub(',', '.', hotel['preco'])
                 hotel['preco'] = float(hotel['preco'])
 
-                _dict.append(hotel)
+                lista_hoteis.append(hotel)
             except:
                 pass
 
-        return _dict
+        return lista_hoteis
 
 # get_hotels(303631, 2, '2022-11-25', 2)

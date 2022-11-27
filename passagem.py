@@ -24,7 +24,7 @@ class ApiPassagem:
         response = requests.request("GET", url, headers=headers, params=querystring)
         response = response.json()
         response = response['getAirFlightDepartures']['results']['result']['itinerary_data']
-        _dict = []
+        lista_voo = []
 
         for i in response:
             voo = {
@@ -39,8 +39,8 @@ class ApiPassagem:
             voo['duracao'] = datetime.strptime(voo['duracao'], '%H:%M:%S').time()
             voo['data_partida'] = dateutil.parser.parse(voo['data_partida'])
             voo['data_chegada'] = dateutil.parser.parse(voo['data_chegada'])
-            _dict.append(voo)
+            lista_voo.append(voo)
             
-        return _dict
+        return lista_voo
 
 # get_passagem('2022-10-16', 2, 'GRU', 'GIG')
