@@ -1,6 +1,5 @@
 keys = {
-    'token_travel_advisor': "",
-    'token_priceline': "",
+    'token': "",
     'HOST': "",
     'DBNAME': "",
     'USER': "",

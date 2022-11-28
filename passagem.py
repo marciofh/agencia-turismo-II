@@ -6,7 +6,7 @@ from credentials import keys
 # Search (departures, one way) https://rapidapi.com/tipsters/api/priceline-com-provider
 class ApiPassagem:
     def get_passagem(data, passageiros, aero_origem, aero_destino):
-        TOKEN = keys.get('token_priceline')
+        TOKEN = keys.get('token')
         url = "https://priceline-com-provider.p.rapidapi.com/v2/flight/departures"
         querystring = {
             "sid": "iSiX639",

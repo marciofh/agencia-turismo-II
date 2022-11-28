@@ -4,7 +4,7 @@ from credentials import keys
 #AIRPORTS/SEARCH https://rapidapi.com/apidojo/api/travel-advisor
 class ApiCidade:
     def get_location(cidade):
-        TOKEN = keys.get('token_travel_advisor')
+        TOKEN = keys.get('token')
         url = "https://travel-advisor.p.rapidapi.com/airports/search"
         querystring = {
             "query": cidade,
