@@ -124,7 +124,7 @@ def get_hotel():
     if session["tem_destino"] == False:
         print("\nNão tem DESTINO, não há hospedagem para a cidade")
         print("########## EXECUTANDO API HOTEL (DESTINO) ##########")
-        dict_hoteis = ApiHospedagem.get_hotels(session["destino"]["location_id"], session["passageiros"], session["data_ida"], session['noites']) #API HOTEL #É UMA LISTA
+        dict_hoteis = ApiHospedagem.get_hotels(session["dict_destino"]["location_id"], session["passageiros"], session["data_ida"], session['noites']) #API HOTEL #É UMA LISTA
         lista_hospedagens = []
         for hospedagem in dict_hoteis:
             lista_hospedagens.append(Hospedagem.criaHospedagem(hospedagem))
