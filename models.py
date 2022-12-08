@@ -309,3 +309,17 @@ class Pacote:
         finally:
             conexao.commit()
             sessao.close() # encerrando a sessão
+
+class Filtros:
+    def consultaFiltros(string_sql):
+        try:
+            conexao = psycopg2.connect(BD.config()) # abrir a conexão
+            sessao = conexao.cursor()
+            sessao.execute(string_sql)  # executando consulta
+            res = sessao.fetchall()
+        except psycopg2.Error:
+            print("error")
+        finally:
+            conexao.commit()
+            sessao.close() # encerrando a sessão
+            return res
