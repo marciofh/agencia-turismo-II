@@ -1,14 +1,10 @@
 from flask import Flask, render_template, request, session
-import plotly.express as px
-import pandas as pd
 import datetime
-import plotly
-import json
 from cidade import ApiCidade
 from atracao import ApiAtracao
 from passagem import ApiPassagem
 from hospedagem import ApiHospedagem
-from models import Cidade, Passagem, Hospedagem, Atracao, Pacote, Filtros
+from models import Cidade, Passagem, Hospedagem, Atracao, Pacote
 
 app = Flask(__name__)
 
@@ -203,87 +199,6 @@ def fechando_pacote():
         Pacote.cadastraPacote(pacote) #ARMAZENA NO BANCO
 
     return render_template('Pacote.html', content = dict_pacote)
-
-@app.route("/filtros", methods=["GET"])
-def get_filtro():
-    _dict = {
-        "cidade":["São Paulo", "Porto Alegre", "Belo Horizonte", "Manaus", "Rio de Janeiro"]
-    }
-    
-    #SELECIONAR FILTROS
-    print("########## SELECIONANDO FILTROS ##########\n")
-    return render_template('Filtros.html', content = _dict)
-
-@app.route("/relatorio", methods=["POST"])
-def gerar_relatorio():
-    lista_filtros = []
-    lista_atributos = []
-    tabela = request.form.get('tabela')
-    
-    if tabela == 'cidade':
-        lista_filtros.append(request.form.get('estado'))
-        lista_atributos.append('estado')
-        lista_filtros.append(request.form.get('aero_code'))
-        lista_atributos.append('aero_code')
-        lista_filtros.append(request.form.get('aero_nome'))
-        lista_atributos.append('aero_nome')
-        atributos = ['id', 'nome', 'estado', 'aero_code', 'aero_nome']
-    
-    elif tabela == 'passagem':
-        lista_filtros.append(request.form.get('preco_pass'))
-        lista_atributos.append('preco')
-        lista_filtros.append(request.form.get('empresa'))
-        lista_atributos.append('empresa')
-        lista_filtros.append(request.form.get('ida_pass'))
-        lista_atributos.append('data_partida')
-        lista_filtros.append(request.form.get('volta_pass'))
-        lista_atributos.append('data_chegada')
-        atributos = ['nome', 'origem_id', 'destino_id', 'preco', 'duracao', 'qtde_conn', 'empresa', 'data_partida', 'data_chegada']
-    
-    elif tabela == 'hospedagem':
-        lista_filtros.append(request.form.get('preco_hotel'))
-        lista_atributos.append('preco')
-        lista_filtros.append(request.form.get('avaliacao_hotel'))
-        lista_atributos.append('avaliacao')
-        lista_filtros.append(request.form.get('estrelas_hotel'))
-        lista_atributos.append('estrelas')
-        atributos = ['id', 'cidade_id', 'nome', 'preco', 'foto', 'avaliacao', 'estrelas', 'endereco']
-    
-    elif tabela == 'atracao':
-        lista_filtros.append(request.form.get('categoria'))
-        lista_atributos.append('categoria')
-        lista_filtros.append(request.form.get('views'))
-        lista_atributos.append('views')
-        lista_filtros.append(request.form.get('avaliacao_atracao'))
-        lista_atributos.append('avaliacao')
-        atributos = ['id', 'cidade_id', 'nome', 'foto', 'categoria', 'endereco', 'n_views', 'avaliacao']
-
-    for i in range(len(lista_filtros)):
-        if lista_filtros[i] == '':
-            lista_atributos[i] = ''
-    
-    while("" in lista_filtros) : 
-        lista_filtros.remove("") 
-        lista_atributos.remove("") 
-
-    string_sql = "Select * from turismo_schema." + tabela + " "
-
-    if len(lista_filtros) > 0:
-        string_sql += "where "
-        for i in range(len(lista_filtros)):
-            string_sql += lista_atributos[i] + " = '" + str(lista_filtros[i]) + "' "
-            if i != len(lista_filtros) - 1:
-                string_sql += " and "
-    string_sql += ";"
-    print("########## CONSULTA COM FILTROS ##########\n")
-    print(string_sql)
-    print()
-    
-    res = Filtros.consultaFiltros(string_sql)
-    df = pd.DataFrame(res, columns=atributos)
-    lista = df.to_dict('records')
-    
-    return render_template('Relatorio.html', content = lista)
 
 if __name__ == "__main__":
     app.secret_key = 'key'
